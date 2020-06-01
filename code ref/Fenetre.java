@@ -49,7 +49,7 @@ public class Fenetre extends JFrame implements ActionListener, ItemListener {
 
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
-        setBounds(0, 0, 400, 400);
+        setBounds(0, 0, 800, 800);
         setResizable(true);
         setVisible(true);
 
@@ -145,22 +145,25 @@ public class Fenetre extends JFrame implements ActionListener, ItemListener {
      * Méthode privée qui initialise la liste des tables
      */
     private void remplirTables() {
-        maconnexion.ajouterTable("Emp");
-        maconnexion.ajouterTable("Dept");
-        maconnexion.ajouterTable("Mission");
+        maconnexion.ajouterTable("cours");
+        maconnexion.ajouterTable("enseignant");
+        maconnexion.ajouterTable("etudiant");
+        maconnexion.ajouterTable("goupe");
+        maconnexion.ajouterTable("promotion");
+        maconnexion.ajouterTable("salle");
+        maconnexion.ajouterTable("seance");
+        maconnexion.ajouterTable("site");
+        maconnexion.ajouterTable("utilisateur");
     }
 
     /**
      * Méthode privée qui initialise la liste des requetes de selection
      */
     private void remplirRequetes() {
-        maconnexion.ajouterRequete("SELECT ename, sal FROM Emp ORDER BY sal;");
-        maconnexion.ajouterRequete("SELECT Dept.*, Emp.*, Mission.* FROM Dept, Emp, Mission WHERE Dept.deptno=Emp.deptno AND Emp.empno=Mission.empno;");
-        maconnexion.ajouterRequete("SELECT AVG (Emp.sal) FROM Emp, Mission WHERE Emp.empno = Mission.empno;");
-        maconnexion.ajouterRequete("SELECT Dept.*, Emp.* FROM Dept, Emp WHERE Dept.deptno=Emp.deptno AND comm>0;");
-        maconnexion.ajouterRequete("SELECT hiredate, empno, ename FROM Emp WHERE (((hiredate)>='1981-05-01' And (hiredate)<'1981-05-31'))ORDER BY hiredate;");
-        maconnexion.ajouterRequete("SELECT ename, job FROM Emp ORDER BY job;");
-        maconnexion.ajouterRequete("SELECT DISTINCT dname, job FROM Dept, Emp WHERE Dept.deptno=Emp.deptno AND job='Clerk';");
+        maconnexion.ajouterRequete("SELECT NOM,PRENOM,DROIT FROM utilisateur;");
+         
+        maconnexion.ajouterRequete("SELECT EMAIL FROM utilisateur;");
+        
     }
 
     /**
