@@ -54,7 +54,7 @@ public class Connexion {
         Class.forName("com.mysql.jdbc.Driver");
 
         // url de connexion "jdbc:mysql://localhost:3305/usernameECE"
-        String urlDatabase = "jdbc:mysql://localhost:3308/" + nameDatabase;
+        String urlDatabase = "jdbc:mysql://localhost/" + nameDatabase;
        // String urlDatabase = "jdbc:mysql://localhost:3308/jps?characterEncoding=latin1";
 
         //création d'une connexion JDBC à la base 
@@ -166,7 +166,7 @@ public class Connexion {
             // ajouter les champs de la ligne dans l'ArrayList
             liste.add(champs);
         }
-
+        
         // Retourner l'ArrayList
         return liste;
     }
