@@ -8,6 +8,8 @@ package vue;
  * 
  * Librairies importées
  */
+import controller.Connexion;
+
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;

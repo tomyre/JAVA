@@ -10,32 +10,10 @@ package graphique;
  * @author azglr
  */
 public class main {
-    
-    /*
+
     public static void main(String[] s) {
         // creation de la fenetre
-        RP f = new RP();
-    }
-    */
-    
-    /*
-    public static void main(String[] s) {
-        // creation de la fenetre
-        Etudiant f = new Etudiant();
-    }
-    */
-    
-    /*
-    public static void main(String[] s) {
-        // creation de la fenetre
-        Professeur f = new Professeur();
-    }
-    */
-    
-    
-    public static void main(String[] s) {
-        // creation de la fenetre
-        connexion f = new connexion();
+        Pageconnexion f = new Pageconnexion();
     }
     
 

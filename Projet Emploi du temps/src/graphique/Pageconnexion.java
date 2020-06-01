@@ -8,21 +8,24 @@ package graphique;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import javax.swing.*;
-
+import controller.*;
 /**
  *
  * @author azglr
  */
 
-public class connexion extends JFrame implements ActionListener {
+public class Pageconnexion extends JFrame implements ActionListener {
     
      private final JLabel label;
+     private final Connexion controlleurConnexions;
     
-    public connexion() {
+    public Pageconnexion() {
         
         //crétion de la fenêtre 
         super("Connexion");
+        this.controlleurConnexions= null;
         this.label = new JLabel("");
         
         addActionListener((ActionListener) this);
@@ -71,16 +74,18 @@ public class connexion extends JFrame implements ActionListener {
         //récupération des données des JTextField par l'action du bouton connexion
         connexion.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                String e = email.getText();
-                String p = password.getText();
-                
-                /*
-                //affichage aprés la récupération des champs
-                System.out.println("L'email est " + e);
-                System.out.println("le password est " + p);
-                */
-                
+            public void actionPerformed(ActionEvent action) {
+                String emailSaisi = email.getText();
+                String mdpSaisi = password.getText();
+                try {
+                    Connexion nouvelleConnexion= new Connexion("bddjava",emailSaisi,mdpSaisi);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
         
