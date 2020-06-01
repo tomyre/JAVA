@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JDBC2020">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/code ref/Aide Segado/JDBC2020/dist/JDBC2020.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
