@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Emploi_du_temps">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/Emploi_du_temps.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
