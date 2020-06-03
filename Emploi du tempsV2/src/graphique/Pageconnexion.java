@@ -29,7 +29,9 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
     private final JTextField mail,mdp;
     private final JButton connexion;
     private final JPanel panel1, panel2, nord;
-    private String emailSaisi,mdpSaisi;
+    String emailSaisi;
+    private String mdpSaisi;
+    private int ID;
 
   public Pageconnexion() {
 
@@ -101,11 +103,30 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
      */
     @Override
         public void actionPerformed(ActionEvent action) {
-                emailSaisi = email.getText();
-                mdpSaisi = password.getText();
+                emailSaisi = mail.getText();
+                mdpSaisi = mdp.getText();
                 try {
                     Connexion nouvelleConnexion= new Connexion("bddjava","root","");
-                    nouvelleConnexion.RecupererDonnees(emailSaisi,mdpSaisi);
+                    //nouvelleConnexion.OperationMofidication("utilisateur","PASSWD","3","tom");
+                    nouvelleConnexion.OperationSuppression("site","3");
+                    //nouvelleConnexion.OperationInsertionCours("cours","lego");
+                    int OptentionDroit=nouvelleConnexion.RecupererDonnees(emailSaisi,mdpSaisi);
+                    if(OptentionDroit!=-1)
+                    {
+                        switch(OptentionDroit){
+                            
+                            case 1:
+                                //admin A = new Admin();
+                            case 2:
+                                RP ref = new RP();
+                            case 3:
+                                Professeur prof = new Professeur();
+                            case 4:
+                                Etudiant etu = new Etudiant();                                
+                        }
+                        //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
+                        
+                    }
                     
                 } catch (SQLException throwables) {
                 } catch (ClassNotFoundException ex) {
