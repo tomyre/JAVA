@@ -107,10 +107,10 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
                 mdpSaisi = mdp.getText();
                 try {
                     Connexion nouvelleConnexion= new Connexion("bddjava","Adam","Adam");
-                    //nouvelleConnexion.OperationMofidication("utilisateur","PASSWD","3","tom");
+//                    nouvelleConnexion.OperationMofidication("utilisateur","PASSWD","3","Adam");
                     System.out.println("Connecte");
 //                    nouvelleConnexion.OperationSuppression("site","3");
-                    //nouvelleConnexion.OperationInsertionCours("cours","lego");
+//                    nouvelleConnexion.OperationInsertionCours("e-sport");
                     int OptentionDroit=nouvelleConnexion.RecupererDonnees(emailSaisi,mdpSaisi);
                     if(OptentionDroit!=-1)
                     {

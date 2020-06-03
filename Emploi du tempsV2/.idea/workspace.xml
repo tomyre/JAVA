@@ -20,18 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e61d0c6a-b43d-4e42-9eff-73ad4a916aa2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_5_1_49_bin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Emploi_du_temps2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Emploi du tempsV2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Emploi du tempsV2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Emploi du tempsV2/META-INF/Emploi du tempsV2.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Emploi du tempsV2/controller/Connexion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Emploi du tempsV2/controller/Connexion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/PageRP$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/PageRP$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/PageRP.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/PageRP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Emploi du tempsV2/graphique/main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/Connexion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Connexion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/graphique/Pageconnexion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphique/Pageconnexion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphique/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphique/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +53,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../code ref/Aide Segado/JDBC2020/lib/mysql-connector-java-5.1.49-bin.jar!/" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -97,7 +90,7 @@
       <option name="presentableId" value="Default" />
       <updated>1591206467138</updated>
       <workItem from="1591206471196" duration="70000" />
-      <workItem from="1591214440814" duration="4906000" />
+      <workItem from="1591214440814" duration="6449000" />
     </task>
     <servers />
   </component>
@@ -125,22 +118,22 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="623" y="300" width="735" height="520" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1591215211866" />
-    <state width="1802" height="275" key="GridCell.Tab.0.bottom" timestamp="1591219485174">
+    <state width="1802" height="275" key="GridCell.Tab.0.bottom" timestamp="1591221028924">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="275" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1591219485174" />
-    <state width="1802" height="275" key="GridCell.Tab.0.center" timestamp="1591219485173">
+    <state width="1802" height="275" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1591221028924" />
+    <state width="1802" height="275" key="GridCell.Tab.0.center" timestamp="1591221028924">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="275" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1591219485173" />
-    <state width="1802" height="275" key="GridCell.Tab.0.left" timestamp="1591219485173">
+    <state width="1802" height="275" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1591221028924" />
+    <state width="1802" height="275" key="GridCell.Tab.0.left" timestamp="1591221028924">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="275" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1591219485173" />
-    <state width="1802" height="275" key="GridCell.Tab.0.right" timestamp="1591219485174">
+    <state width="1802" height="275" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1591221028924" />
+    <state width="1802" height="275" key="GridCell.Tab.0.right" timestamp="1591221028924">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="275" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1591219485174" />
+    <state width="1802" height="275" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1591221028924" />
     <state width="878" height="340" key="GridCell.Tab.1.bottom" timestamp="1591215603898">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>

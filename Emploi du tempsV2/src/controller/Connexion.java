@@ -109,22 +109,23 @@ public class Connexion {
     }
     
     public void OperationMofidication(String table,String colonne,String ID, String modif){
-              
-//        requete = "UPDATE "+table+" SET "+colonne+" = '"+modif+"' WHERE ID = '"+ID+"'";
-//
-//        try{
-//            res =stmt.executeUpdate(requete);
-//            if(res==1)
-//            {
-//                JOptionPane.showMessageDialog(null, "Informations modifié", "Info", JOptionPane.INFORMATION_MESSAGE);
-//            }
-//            else
-//            {
-//                JOptionPane.showMessageDialog(null, "Erreur  dans les saisies veuillez vous assurer que vous ne vous etes pas trompé", "ERREUR", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }catch (SQLException e){
-//        JOptionPane.showMessageDialog(null, "Erreur  dans les saisies veuillez vous assurer que vous ne vous etes pas trompé", "ERREUR", JOptionPane.ERROR_MESSAGE);
-//        }
+        requete = "UPDATE "+table+" SET "+colonne+"= '"+modif+"' WHERE ID = "+ID;
+        System.out.println(requete);
+        try{
+            int res = stmt.executeUpdate(requete);
+            if(res!=1)
+            {
+                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+res, "ERREUR", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Modification reussie", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erreur 1 probleme de syntaxe dans la requete SQL", "ERREUR", JOptionPane.ERROR_MESSAGE);
+        }
+
    }
     
     
@@ -149,22 +150,23 @@ public class Connexion {
         }          
    }       
 
-    public void OperationInsertionCours(String table,String NomCours){
-//        requete = "INSERT INTO "+table+"(NOM) VALUES ('"+ID+"')";
-//
-//        try{
-//            res=stmt.executeUpdate(requete);
-//            if(res==1)
-//            {
-//                JOptionPane.showMessageDialog(null, "Le cours à éte ajouté", "Info", JOptionPane.INFORMATION_MESSAGE);
-//            }
-//            else
-//            {
-//                JOptionPane.showMessageDialog(null, "Erreur 2 dans les saisies veuillez vous assurer que vous ne vous etes pas trompé", "ERREUR", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }catch (SQLException e){
-//        JOptionPane.showMessageDialog(null, "Erreur 1 dans les saisies veuillez vous assurer que vous ne vous etes pas trompé", "ERREUR", JOptionPane.ERROR_MESSAGE);
-//        }
+    public void OperationInsertionCours(String NomCours){
+        requete = "INSERT INTO cours (NOM) VALUES ('"+NomCours+"')";
+       System.out.println(requete);
+        try{
+            int res = stmt.executeUpdate(requete);
+            if(res!=1)
+            {
+                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+res, "ERREUR", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Cours insere", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erreur 1 probleme de syntaxe dans la requete SQL", "ERREUR", JOptionPane.ERROR_MESSAGE);
+        }
    }  
    
 /**
