@@ -108,7 +108,7 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
                 try {
                     Connexion nouvelleConnexion= new Connexion("bddjava","root","");
                     //nouvelleConnexion.OperationMofidication("utilisateur","PASSWD","3","tom");
-                    nouvelleConnexion.OperationSuppression("site","3");
+                    //nouvelleConnexion.OperationSuppression("site","3");
                     //nouvelleConnexion.OperationInsertionCours("cours","lego");
                     int OptentionDroit=nouvelleConnexion.RecupererDonnees(emailSaisi,mdpSaisi);
                     if(OptentionDroit!=-1)
@@ -118,7 +118,7 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
                             case 1:
                                 //admin A = new Admin();
                             case 2:
-                                RP ref = new RP();
+                                PageRP ref = new PageRP();
                             case 3:
                                 Professeur prof = new Professeur();
                             case 4:
