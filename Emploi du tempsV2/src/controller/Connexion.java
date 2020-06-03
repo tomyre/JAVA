@@ -174,18 +174,15 @@ public class Connexion {
      * @throws java.sql.SQLException
      */
     public ArrayList remplirChampsRequete(String requete) throws SQLException {
-        System.out.println("1");
+        
         // récupération de l'ordre de la requete
         rset = stmt.executeQuery(requete);
-        System.out.println("2");
 
         // récupération du résultat de l'ordre
         rsetMeta = rset.getMetaData();
-        System.out.println("3");
 
         // calcul du nombre de colonnes du resultat
         int nbColonne = rsetMeta.getColumnCount();
-        System.out.println("4");
         
         // creation d'une ArrayList de String
         ArrayList<String> liste;
@@ -210,7 +207,7 @@ public class Connexion {
             liste.add(champs);
             
         }
-        System.out.println(liste.isEmpty());
+        
         // Retourner l'ArrayList
         return liste;
     }

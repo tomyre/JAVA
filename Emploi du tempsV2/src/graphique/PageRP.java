@@ -35,12 +35,12 @@ public class PageRP extends JFrame implements ActionListener {
     private Statement stmt;
     private Connexion conn;
     
-    public PageRP() throws SQLException{
+    public PageRP() throws SQLException, ClassNotFoundException{
         
 	//création par héritage de la fenêtre
         super("Page Référent Pédagogique");
         
-        //conn = new Connexion();
+        conn = new Connexion("bddjava","root","");
         
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
@@ -135,17 +135,8 @@ public class PageRP extends JFrame implements ActionListener {
      */
     @Override
         public void actionPerformed(ActionEvent action) {
-               
-                try {
-                    
-                    Connexion nouvelleConnexion= new Connexion("bddjava","root","");
                     
                     //récupérer les lignes de la tables "salle"
                     afficherLignes();
-                    
-                } catch (SQLException throwables) {
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Pageconnexion.class.getName()).log(Level.SEVERE, null, ex);
-                }
         }
 }
