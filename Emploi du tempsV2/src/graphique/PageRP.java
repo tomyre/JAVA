@@ -40,6 +40,8 @@ public class PageRP extends JFrame implements ActionListener {
 	//création par héritage de la fenêtre
         super("Page Référent Pédagogique");
         
+        //conn = new Connexion();
+        
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
         setBounds(0, 0, 400, 400);
@@ -115,7 +117,7 @@ public class PageRP extends JFrame implements ActionListener {
             String requeteSelectionnee = "SELECT * FROM salle";
             
             liste = conn.remplirChampsRequete(requeteSelectionnee);
-
+            
             // afficher les lignes de la requete selectionnee a partir de la liste
             fenetreLignes.setText("");
             for (String liste1 : liste) {
@@ -136,11 +138,7 @@ public class PageRP extends JFrame implements ActionListener {
                
                 try {
                     
-                    //System.out.println("coucou");
-                    
                     Connexion nouvelleConnexion= new Connexion("bddjava","root","");
-                    
-                    System.out.println("coucou");
                     
                     //récupérer les lignes de la tables "salle"
                     afficherLignes();
