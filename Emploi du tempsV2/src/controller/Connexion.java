@@ -9,8 +9,7 @@ package controller;
  * Librairies importées
  */
 import java.sql.*;
-import java.util.ArrayList;
-
+import javax.swing.JOptionPane;
 /**
  * 
  * Connexion a votre BDD locale ou à distance sur le serveur de l'ECE via le tunnel SSH
@@ -51,7 +50,7 @@ public class Connexion {
        
        // création d'un ordre SQL (statement)
         stmt = conn.createStatement();
-        System.out.println("connexion reussi");
+        //System.out.println("connexion reussi");
         }
 
    public int RecupererDonnees(String email, String mdp) throws SQLException{
@@ -73,11 +72,12 @@ public class Connexion {
                 else
                 {
                     // recommncer loperation de connexion
-                    System.out.println("Identifiants incorrects try again");
+                    JOptionPane.showMessageDialog(null, "Identifiants ou password incorrects try again", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    //System.out.println("Identifiants ou password incorrects try again");
                 }
             }
         } catch (SQLException e){
-            System.out.println("Erreur lors de la requete");
+            JOptionPane.showMessageDialog(null, "Identifiants ou password incorrects try again", "Erreur", JOptionPane.ERROR_MESSAGE);
 
         }
         return -1;
