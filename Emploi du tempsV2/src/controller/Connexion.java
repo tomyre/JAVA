@@ -25,9 +25,9 @@ public class Connexion {
      */
     private final Connection conn;
     private Statement stmt;
-    private ResultSet rset = null;
+    private ResultSet rset = null, res;
     private ResultSetMetaData rsetMeta;
-    private String requete;
+    private String requete,query;
 
 
 
@@ -51,24 +51,44 @@ public class Connexion {
        
        // création d'un ordre SQL (statement)
         stmt = conn.createStatement();
-        System.out.println("connexion reussi /n");
+        System.out.println("connexion reussi");
         }
 
-   public void RecupererDonnees(String email, String mdp) throws SQLException{
+   public int RecupererDonnees(String email, String mdp) throws SQLException{
   
-        requete = "SELECT * FROM utilisateur" ;/*+ "WHERE EMAIl = 'tom.larnicol@edu.ece.fr' ";*/
-        
+      requete = "SELECT * FROM utilisateur WHERE EMAIL='"+email+"'";
+    
         try{
-            rset=stmt.executeQuery(requete);      
+            rset =stmt.executeQuery(requete);
+            rset.next();
+            if(rset!=null)
+            {
+                String mdpBD=rset.getString("PASSWD");
+                boolean motDepasseValide=(mdpBD.equals(mdp));
+                if(motDepasseValide)
+                {
+                    return rset.getInt("DROIT");
+                   
+                } 
+                else
+                {
+                    // recommncer loperation de connexion
+                    System.out.println("Identifiants incorrects try again");
+                }
+            }
         } catch (SQLException e){
             System.out.println("Erreur lors de la requete");
+
         }
+        return -1;
         
-        try{
+        /*try{
             rsetMeta=rset.getMetaData();
-            int nbCols = rsetMeta.getColumnCount();
+         
+            //int nbCols = rsetMeta.getColumnCount();
             boolean encore= rset.next();
-            while (encore){
+ 
+            /*while (encore){
                 for(int i=1;i <= nbCols;i++)
                     System.out.println(rset.getString(i) + "");
                 System.out.println();
@@ -77,7 +97,7 @@ public class Connexion {
             rset.close();
         }catch(SQLException e){
           System.out.println(e.getMessage()); 
-        }
+        }*/
     }
 }
         
