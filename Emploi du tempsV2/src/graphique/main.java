@@ -5,15 +5,24 @@
  */
 package graphique;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author azglr
  */
 public class main {
 
+    /*
     public static void main(String[] s) {
         // creation de la fenetre
         Pageconnexion f = new Pageconnexion();
+    }
+    */
+    
+    public static void main(String[] s) throws SQLException {
+        // creation de la fenetre
+        PageRP f = new PageRP();
     }
     
 
