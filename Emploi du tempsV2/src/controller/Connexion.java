@@ -9,6 +9,7 @@ package controller;
  * Librairies importées
  */
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  * 
@@ -41,8 +42,7 @@ public class Connexion {
        String urlDatabase = "jdbc:mysql://localhost/" + nameDatabase;
        
        //création d'une connexion JDBC à la base 
-       conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);
-       
+       conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);;
        // création d'un ordre SQL (statement)
         stmt = conn.createStatement();
         //System.out.println("connexion reussi");
@@ -166,21 +166,50 @@ public class Connexion {
         JOptionPane.showMessageDialog(null, "Erreur 1 dans les saisies veuillez vous assurer que vous ne vous etes pas trompé", "ERREUR", JOptionPane.ERROR_MESSAGE);
         }          
    }  
-}
    
-/*try{
-            rsetMeta=rset.getMetaData();
-         
-            //int nbCols = rsetMeta.getColumnCount();
-            boolean encore= rset.next();
- 
-            /*while (encore){
-                for(int i=1;i <= nbCols;i++)
-                    System.out.println(rset.getString(i) + "");
-                System.out.println();
-                encore=rset.next();
+/**
+     * Methode qui retourne l'ArrayList des champs de la requete en parametre
+     * @param requete
+     * @return 
+     * @throws java.sql.SQLException
+     */
+    public ArrayList remplirChampsRequete(String requete) throws SQLException {
+        
+        System.out.println("coucou");
+        
+        // récupération de l'ordre de la requete
+        rset = stmt.executeQuery(requete);
+        
+        //System.out.println("coucou");
+
+        // récupération du résultat de l'ordre
+        rsetMeta = rset.getMetaData();
+
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+
+        // creation d'une ArrayList de String
+        ArrayList<String> liste;
+        liste = new ArrayList<>();
+
+        // tant qu'il reste une ligne 
+        while (rset.next()) {
+            String champs;
+            champs = rset.getString(1); // ajouter premier champ
+
+            // Concatener les champs de la ligne separes par ,
+            for (int i = 1; i < nbColonne; i++) {
+                champs = champs + "," + rset.getString(i + 1);
             }
-            rset.close();
-        }catch(SQLException e){
-          System.out.println(e.getMessage()); 
-        }*/
+
+            // ajouter un "\n" à la ligne des champs
+            champs = champs + "\n";
+
+            // ajouter les champs de la ligne dans l'ArrayList
+            liste.add(champs);
+        }
+        
+        // Retourner l'ArrayList
+        return liste;
+    }
+}
