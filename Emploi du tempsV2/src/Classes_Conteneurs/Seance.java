@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Seance {
-    // TODO Chnager Date et Heure
     private int id=-1;
     private int semaine=1;
     private Date date;
@@ -16,13 +15,13 @@ public class Seance {
     private Time heureFin;
     private Etat_Seance etat=Etat_Seance.VALIDEE;
     private int idCours;
-    private TypeCours typeCours=TypeCours.COURS;
+    private int idTypeCours=-1;
     private Set<Enseignant> listeEnseignants = new HashSet<Enseignant>();
     private Set<Groupe> listeGroupes = new HashSet<Groupe>();
     private Set<Salle> listeSalles = new HashSet<Salle>();
     public Seance(){};
 
-    public Seance(int id, int semaine, Date date, Time heureDebut, Time heureFin, Etat_Seance etat, int cours, TypeCours typeCours, Set<Enseignant> listeEnseignants) {
+    public Seance(int id, int semaine, Date date, Time heureDebut, Time heureFin, Etat_Seance etat, int cours, int typeCours, Set<Enseignant> listeEnseignants) {
         this.id = id;
         this.semaine = semaine;
         this.date = date;
@@ -30,11 +29,11 @@ public class Seance {
         this.heureFin = heureFin;
         this.etat = etat;
         this.idCours = cours;
-        this.typeCours = typeCours;
+        this.idTypeCours = typeCours;
         this.listeEnseignants = listeEnseignants;
     }
 
-    public Seance(int id, int semaine, Date date, Time heureDebut, Time heureFin, Etat_Seance etat, int idCours, TypeCours typeCours) {
+    public Seance(int id, int semaine, Date date, Time heureDebut, Time heureFin, Etat_Seance etat, int idCours, int typeCours) {
         this.id = id;
         this.semaine = semaine;
         this.date = date;
@@ -42,7 +41,7 @@ public class Seance {
         this.heureFin = heureFin;
         this.etat = etat;
         this.idCours = idCours;
-        this.typeCours = typeCours;
+        this.idTypeCours = typeCours;
     }
 
     public int getId() {
@@ -100,12 +99,12 @@ public class Seance {
         this.idCours = cours;
     }
 
-    public TypeCours getTypeCours() {
-        return typeCours;
+    public int getTypeCours() {
+        return idTypeCours;
     }
 
-    public void setTypeCours(TypeCours typeCours) {
-        this.typeCours = typeCours;
+    public void setTypeCours(int typeCours) {
+        this.idTypeCours = typeCours;
     }
 
     public Set<Enseignant> getListeEnseignants() {

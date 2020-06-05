@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 02 juin 2020 à 18:32
+-- Généré le :  ven. 05 juin 2020 à 11:49
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `cours` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOM` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `cours`
@@ -48,7 +48,8 @@ INSERT INTO `cours` (`ID`, `NOM`) VALUES
 (6, 'Droit du Travail'),
 (7, 'Electronique'),
 (8, 'Thermodynamique'),
-(9, 'Allemand');
+(9, 'Allemand'),
+(10, 'Probabilités');
 
 -- --------------------------------------------------------
 
@@ -72,9 +73,11 @@ INSERT INTO `enseignant` (`ID_UTILISATEUR`, `ID_COURS`) VALUES
 (6, 1),
 (7, 2),
 (8, 3),
+(9, 1),
 (9, 4),
 (10, 5),
 (11, 6),
+(12, 2),
 (12, 7),
 (13, 8),
 (14, 9);
@@ -92,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `etudiant` (
   `ID_GROUPE` int(11) NOT NULL,
   PRIMARY KEY (`ID_UTILISATEUR`),
   KEY `ID_GROUPE` (`ID_GROUPE`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `etudiant`
@@ -101,7 +104,10 @@ CREATE TABLE IF NOT EXISTS `etudiant` (
 INSERT INTO `etudiant` (`ID_UTILISATEUR`, `NUMERO`, `ID_GROUPE`) VALUES
 (1, 1101, 1),
 (2, 1102, 2),
-(3, 1103, 3);
+(3, 1103, 3),
+(15, 1104, 4),
+(16, 1105, 5),
+(17, 1106, 6);
 
 -- --------------------------------------------------------
 
@@ -116,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `groupe` (
   `ID_PROMOTION` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `ID_PROMOTION` (`ID_PROMOTION`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `groupe`
@@ -125,7 +131,10 @@ CREATE TABLE IF NOT EXISTS `groupe` (
 INSERT INTO `groupe` (`ID`, `NOM`, `ID_PROMOTION`) VALUES
 (1, 'TD1', 1),
 (2, 'TD2', 2),
-(3, 'TD3', 3);
+(3, 'TD3', 3),
+(4, 'TD4', 1),
+(5, 'TD5', 2),
+(6, 'TD6', 3);
 
 -- --------------------------------------------------------
 
@@ -163,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `salle` (
   `ID_SITE` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `ID_SITE` (`ID_SITE`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `salle`
@@ -175,7 +184,11 @@ INSERT INTO `salle` (`ID`, `NOM`, `CAPACITE`, `ID_SITE`) VALUES
 (3, 'SC01', 40, 2),
 (4, 'P01', 50, 3),
 (5, 'G019', 80, 4),
-(6, 'H005', 60, 5);
+(6, 'H005', 60, 5),
+(7, 'SC02', 50, 2),
+(8, 'P02', 500, 3),
+(9, 'G016', 30, 4),
+(10, 'H001', 100, 5);
 
 -- --------------------------------------------------------
 
@@ -196,22 +209,23 @@ CREATE TABLE IF NOT EXISTS `seance` (
   PRIMARY KEY (`ID`),
   KEY `ID_COURS` (`ID_COURS`),
   KEY `ID_TYPE` (`ID_TYPE`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `seance`
 --
 
 INSERT INTO `seance` (`ID`, `SEMAINE`, `DATE`, `HEURE_DEBUT`, `HEURE_FIN`, `ETAT`, `ID_COURS`, `ID_TYPE`) VALUES
-(1, 1, '2020-06-15', '08:30:00', '11:45:00', 2, 4, 4),
+(1, 1, '2020-06-15', '08:30:00', '11:45:00', 2, 1, 4),
 (2, 1, '2020-06-15', '15:30:00', '17:00:00', 2, 5, 4),
 (3, 1, '2020-06-16', '14:00:00', '16:00:00', 2, 8, 3),
 (4, 1, '2020-06-17', '10:00:00', '12:00:00', 1, 3, 3),
 (5, 1, '2020-06-19', '15:30:00', '17:00:00', 2, 2, 1),
-(6, 2, '2020-06-22', '10:15:00', '11:45:00', 2, 1, 5),
+(6, 2, '2020-06-22', '10:15:00', '11:45:00', 2, 4, 5),
 (7, 2, '2020-06-22', '12:00:00', '13:30:00', 2, 9, 4),
 (8, 2, '2020-06-23', '13:30:00', '15:00:00', 1, 6, 4),
-(9, 2, '2020-06-24', '10:15:00', '11:45:00', 3, 7, 2);
+(9, 2, '2020-06-24', '10:15:00', '11:45:00', 3, 7, 2),
+(10, 1, '2020-06-19', '10:15:00', '12:00:00', 1, 10, 5);
 
 -- --------------------------------------------------------
 
@@ -233,14 +247,17 @@ CREATE TABLE IF NOT EXISTS `seance_enseignants` (
 
 INSERT INTO `seance_enseignants` (`ID_SEANCE`, `ID_ENSEIGNANT`) VALUES
 (1, 6),
-(2, 7),
-(3, 8),
-(4, 9),
-(5, 10),
-(6, 11),
-(7, 12),
-(8, 13),
-(9, 14);
+(1, 9),
+(2, 10),
+(3, 13),
+(4, 8),
+(5, 7),
+(5, 12),
+(6, 9),
+(7, 14),
+(8, 11),
+(9, 12),
+(10, 8);
 
 -- --------------------------------------------------------
 
@@ -265,10 +282,10 @@ INSERT INTO `seance_groupes` (`ID_SEANCE`, `ID_GROUPE`) VALUES
 (2, 2),
 (3, 3),
 (4, 1),
-(5, 2),
-(6, 3),
+(5, 4),
+(6, 5),
 (7, 1),
-(8, 2),
+(8, 6),
 (9, 3);
 
 -- --------------------------------------------------------
@@ -363,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `PRENOM` varchar(255) NOT NULL,
   `DROIT` enum('1','2','3','4') NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -383,7 +400,10 @@ INSERT INTO `utilisateur` (`ID`, `EMAIL`, `PASSWD`, `NOM`, `PRENOM`, `DROIT`) VA
 (11, 'yves.maupile@ece.fr', 'yves', 'Maupile', 'Yves', '3'),
 (12, 'arash.mokhber@ece.fr', 'arash', 'Mokhber', 'Arash', '3'),
 (13, 'remi.richaud@ece.fr', 'remi', 'Richaud', 'Remi', '3'),
-(14, 'cornelia.mihesso@ece.fr', 'cornelia', 'Mihesso', 'Cornelia', '3');
+(14, 'cornelia.mihesso@ece.fr', 'cornelia', 'Mihesso', 'Cornelia', '3'),
+(15, 'lea.desbiens@edu.ece.fr', 'lea', 'Desbiens', 'Lea', '4'),
+(16, 'paola.peretti@edu.ece.fr', 'paola', 'Peretti', 'Paola', '4'),
+(17, 'pa.rebuffi@edu.ece.fr', 'pa', 'Rebuffi', 'PA', '4');
 
 --
 -- Contraintes pour les tables déchargées
@@ -414,34 +434,6 @@ ALTER TABLE `groupe`
 --
 ALTER TABLE `salle`
   ADD CONSTRAINT `salle_ibfk_1` FOREIGN KEY (`ID_SITE`) REFERENCES `site` (`ID`);
-
---
--- Contraintes pour la table `seance`
---
-ALTER TABLE `seance`
-  ADD CONSTRAINT `seance_ibfk_1` FOREIGN KEY (`ID_COURS`) REFERENCES `cours` (`ID`),
-  ADD CONSTRAINT `seance_ibfk_2` FOREIGN KEY (`ID_TYPE`) REFERENCES `type_cours` (`ID`);
-
---
--- Contraintes pour la table `seance_enseignants`
---
-ALTER TABLE `seance_enseignants`
-  ADD CONSTRAINT `seance_enseignants_ibfk_1` FOREIGN KEY (`ID_SEANCE`) REFERENCES `seance` (`ID`),
-  ADD CONSTRAINT `seance_enseignants_ibfk_2` FOREIGN KEY (`ID_ENSEIGNANT`) REFERENCES `enseignant` (`ID_UTILISATEUR`);
-
---
--- Contraintes pour la table `seance_groupes`
---
-ALTER TABLE `seance_groupes`
-  ADD CONSTRAINT `seance_groupes_ibfk_1` FOREIGN KEY (`ID_SEANCE`) REFERENCES `seance` (`ID`),
-  ADD CONSTRAINT `seance_groupes_ibfk_2` FOREIGN KEY (`ID_GROUPE`) REFERENCES `groupe` (`ID`);
-
---
--- Contraintes pour la table `seance_salles`
---
-ALTER TABLE `seance_salles`
-  ADD CONSTRAINT `seance_salles_ibfk_1` FOREIGN KEY (`ID_SALLE`) REFERENCES `salle` (`ID`),
-  ADD CONSTRAINT `seance_salles_ibfk_2` FOREIGN KEY (`ID_SEANCE`) REFERENCES `seance` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,40 +1,28 @@
 package Classes_Conteneurs;
-
-public enum TypeCours {
-    AUCUN(0,"AUCUN"),
-    TD(1,"TD"),
-    TP(2,"TP"),
-    EXAMEN(3,"Examen"),
-    COURS(4,"Cours"),
-    PROJET(5,"Projet");
-
+public class TypeCours {
     private int id = -1;
     private String nom = "";
 
+    public TypeCours() {};
+
+    public TypeCours(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNom() {
         return nom;
     }
 
-    //Constructeur
-    TypeCours(int id,String nomCours) {
-        this.id = id;
-        this.nom=nomCours;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-    public static TypeCours getType(int id)
-    {
-        return switch (id) {
-            case 1 -> TypeCours.TD;
-            case 2 ->  TypeCours.TP;
-            case 3 ->  TypeCours.EXAMEN;
-            case 4 ->  TypeCours.COURS;
-            case 5 ->  TypeCours.PROJET;
-            default -> TypeCours.AUCUN;
-        };
-    }
-    // Methode d'acces au nom du cours
-
 }

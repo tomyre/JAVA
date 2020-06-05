@@ -15,12 +15,12 @@ public class SalleDAO extends DAO<Salle>{
 
     @Override
     public boolean creer(Salle salle) {
-        String nomSalle= salle.getNom();
-        int capacite=salle.getCapacite();
-        int id_site=salle.getSite();
-        String requete = "INSERT INTO salle (NOM, CAPACITE, ID_SITE) VALUES ("+nomSalle+","+capacite+","+id_site+")";
+        String requete = "INSERT INTO salle (NOM, CAPACITE, ID_SITE) VALUES (?,?,?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,salle.getNom());
+            preparedStatement.setInt(2,salle.getCapacite());
+            preparedStatement.setInt(3,salle.getSite());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -39,10 +39,10 @@ public class SalleDAO extends DAO<Salle>{
 
     @Override
     public boolean supprimer(Salle salle) {
-        int idSalle= salle.getId();
-        String requete = "DELETE FROM salle WHERE ID="+idSalle;
+        String requete = "DELETE FROM salle WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,salle.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -61,13 +61,13 @@ public class SalleDAO extends DAO<Salle>{
 
     @Override
     public boolean miseAJour(Salle salle) {
-        String nomSalle=salle.getNom();
-        int capacite=salle.getCapacite();
-        int idSite=salle.getSite();
-        int idSalle=salle.getId();
-        String requete = "UPDATE salle SET NOM='"+nomSalle+"', CAPACITE="+capacite+", ID_SITE="+idSite+" WHERE ID="+idSalle;
+        String requete = "UPDATE salle SET NOM=?,CAPACITE=?,ID_SITE=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,salle.getNom());
+            preparedStatement.setInt(1,salle.getCapacite());
+            preparedStatement.setInt(1,salle.getSite());
+            preparedStatement.setInt(1,salle.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -86,17 +86,15 @@ public class SalleDAO extends DAO<Salle>{
 
     @Override
     public Salle chercher(int id) {
-        Salle salle = new Salle();
+        Salle salle = null;
         try {
-            String requete = "SELECT * FROM salle WHERE ID = " + id;
+            String requete = "SELECT * FROM salle WHERE ID =?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {
-                int capacite=resultat.getInt("CAPACITE");
-                String nom=resultat.getString("NOM");
-                int idSite=resultat.getInt("ID_SITE");
-                salle= new Salle(id,capacite,nom,idSite);
+                salle= new Salle(id,resultat.getInt("CAPACITE"),resultat.getString("NOM"),resultat.getInt("ID_SITE"));
             }
 
         } catch (SQLException e) {

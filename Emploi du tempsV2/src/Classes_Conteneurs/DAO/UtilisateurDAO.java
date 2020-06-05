@@ -18,15 +18,14 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 
     @Override
     public boolean creer(Utilisateur utilisateur) {
-        String nomUtilisateur= utilisateur.getNom();
-        String email=utilisateur.getMail();
-        String mdp=utilisateur.getMotDePasse();
-        String nom=utilisateur.getNom();
-        String prenom= utilisateur.getPrenom();
-        Droit droit= utilisateur.getDroit();
-        String requete = "INSERT INTO utilisateur (EMAIL, PASSWD, NOM, PRENOM, DROIT) VALUES ('"+email+"','"+mdp+"','"+nom+"','"+prenom+"',"+droit.getDroit()+")";
+        String requete = "INSERT INTO utilisateur (EMAIL, PASSWD, NOM, PRENOM, DROIT) VALUES (?,?,?,?,?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,utilisateur.getMail());
+            preparedStatement.setString(2,utilisateur.getMotDePasse());
+            preparedStatement.setString(3,utilisateur.getNom());
+            preparedStatement.setString(4,utilisateur.getPrenom());
+            preparedStatement.setInt(5,utilisateur.getDroit().getDroit());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -45,10 +44,10 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 
     @Override
     public boolean supprimer(Utilisateur utilisateur) {
-        int idUtilisateur= utilisateur.getId();
-        String requete = "DELETE FROM utilisateur WHERE ID="+idUtilisateur;
+        String requete = "DELETE FROM utilisateur WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,utilisateur.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -67,15 +66,15 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 
     @Override
     public boolean miseAJour(Utilisateur utilisateur) {
-        String email=utilisateur.getMail();
-        int idUtilisateur=utilisateur.getId();
-        String mdp=utilisateur.getMotDePasse();
-        String nom=utilisateur.getNom();
-        String prenom=utilisateur.getPrenom();
-        int droit=utilisateur.getDroit().getDroit();
-        String requete = "UPDATE utilisateur SET EMAIL='"+email+"', PASSWD="+mdp+", NOM= "+nom+", PRENOM= "+prenom+", DROIT="+droit+" WHERE ID="+idUtilisateur;
+        String requete = "UPDATE utilisateur SET EMAIL=?,PASSWD=?,NOM=?,PRENOM=?,DROIT=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,utilisateur.getMail());
+            preparedStatement.setString(2,utilisateur.getMotDePasse());
+            preparedStatement.setString(3,utilisateur.getNom());
+            preparedStatement.setString(4,utilisateur.getPrenom());
+            preparedStatement.setInt(5,utilisateur.getDroit().getDroit());
+            preparedStatement.setInt(6,utilisateur.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -94,10 +93,11 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
 
     @Override
     public Utilisateur chercher(int id) {
-        Utilisateur utilisateur = new Utilisateur();
+        Utilisateur utilisateur = null;
         try {
-            String requete = "SELECT * FROM utilisateur WHERE ID = " + id;
+            String requete = "SELECT * FROM utilisateur WHERE ID =?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {

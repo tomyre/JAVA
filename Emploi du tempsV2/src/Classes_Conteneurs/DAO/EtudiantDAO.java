@@ -15,13 +15,13 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
     }
 
     @Override
-    public boolean creer(Classes_Conteneurs.Etudiant etudiant ) {
-        int idGroupe=etudiant.getIdGroupe();
-        int idUtilisateur=etudiant.getIdUtilisateur();
-        int numero=etudiant.getNumeroEtudiant();
-        String requete = "INSERT INTO etudiant (ID_UTILISATEUR, NUMERO, ID_GROUPE) VALUES ("+idUtilisateur+","+numero+","+idGroupe+")";
+    public boolean creer(Classes_Conteneurs.Etudiant etudiant) {
+        String requete = "INSERT INTO etudiant (ID_UTILISATEUR, NUMERO, ID_GROUPE) VALUES (?,?,?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,etudiant.getIdUtilisateur());
+            preparedStatement.setInt(2,etudiant.getNumeroEtudiant());
+            preparedStatement.setInt(3,etudiant.getIdGroupe());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -40,10 +40,10 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
 
     @Override
     public boolean supprimer(Classes_Conteneurs.Etudiant  etudiant) {
-        int idUtilisateur= etudiant.getIdUtilisateur();
-        String requete = "DELETE FROM etudiant WHERE ID_UTILISATEUR="+idUtilisateur;
+        String requete = "DELETE FROM etudiant WHERE ID_UTILISATEUR=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,etudiant.getIdUtilisateur());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -62,12 +62,12 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
 
     @Override
     public boolean miseAJour(Classes_Conteneurs.Etudiant  etudiant) {
-        int idUtilisateur=etudiant.getIdUtilisateur();
-        int idGroupe=etudiant.getIdGroupe();
-        int numeroEtudiant=etudiant.getNumeroEtudiant();
-        String requete = "UPDATE etudiant SET ID_GROUPE ="+idGroupe+",NUMERO="+numeroEtudiant+" WHERE ID_UTILISATEUR="+idUtilisateur;
+        String requete = "UPDATE etudiant SET ID_GROUPE =?,NUMERO=? WHERE ID_UTILISATEUR=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,etudiant.getIdGroupe());
+            preparedStatement.setInt(2,etudiant.getNumeroEtudiant());
+            preparedStatement.setInt(3,etudiant.getIdUtilisateur());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -85,16 +85,15 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
     }
     @Override
     public Etudiant chercher(int etudiantId) {
-        Etudiant etudiant = new Etudiant();
+        Etudiant etudiant = null;
         try {
-            String requete = "SELECT * FROM etudiant WHERE ID_UTILISATEUR = " + etudiantId;
+            String requete = "SELECT * FROM etudiant WHERE ID_UTILISATEUR = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,etudiantId);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {
-                int idGroupe=resultat.getInt("ID_GROUPE");
-                int numero=resultat.getInt("NUMERO");
-                etudiant= new Etudiant(numero,idGroupe,etudiantId);
+                etudiant= new Etudiant(resultat.getInt("NUMERO"),resultat.getInt("ID_GROUPE"),etudiantId);
             }
 
         } catch (SQLException e) {

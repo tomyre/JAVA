@@ -14,10 +14,10 @@ public class PromotionDAO extends DAO<Promotion> {
 
     @Override
     public boolean creer(Promotion promotion) {
-        String nomPromotion=promotion.getNom();
-        String requete = "INSERT INTO promotion (NOM) VALUES ('"+nomPromotion+"')";
+        String requete = "INSERT INTO promotion (NOM) VALUES (?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,promotion.getNom());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -36,10 +36,10 @@ public class PromotionDAO extends DAO<Promotion> {
 
     @Override
     public boolean supprimer(Promotion promotion) {
-        int idPromotion = promotion.getId();
-        String requete = "DELETE FROM promotion WHERE ID="+idPromotion;
+        String requete = "DELETE FROM promotion WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,promotion.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -58,11 +58,11 @@ public class PromotionDAO extends DAO<Promotion> {
 
     @Override
     public boolean miseAJour(Promotion promotion) {
-        String nomPromotionMAJ=promotion.getNom();
-        int idPromotionMAJ=promotion.getId();
-        String requete = "UPDATE promotion SET NOM='"+nomPromotionMAJ+"' WHERE ID="+idPromotionMAJ;
+        String requete = "UPDATE promotion SET NOM=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,promotion.getNom());
+            preparedStatement.setInt(2,promotion.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -81,10 +81,11 @@ public class PromotionDAO extends DAO<Promotion> {
 
     @Override
     public Promotion chercher(int id) {
-        Promotion promotion = new Promotion();
+        Promotion promotion = null;
         try {
-            String requete = "SELECT * FROM promotion WHERE ID = " + id;
+            String requete = "SELECT * FROM promotion WHERE ID = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {

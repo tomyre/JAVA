@@ -1,12 +1,13 @@
 package Classes_Conteneurs.DAO;
 
+import Classes_Conteneurs.Etat_Seance;
+import Classes_Conteneurs.Seance;
 import Classes_Conteneurs.TypeCours;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 public class Type_CoursDAO extends DAO<TypeCours> {
     public Type_CoursDAO(Connection conn) {
         super(conn);
@@ -14,10 +15,10 @@ public class Type_CoursDAO extends DAO<TypeCours> {
 
     @Override
     public boolean creer(TypeCours type_cours) {
-        String nomType_Cours=type_cours.getNom();
-        String requete = "INSERT INTO type_cours (NOM) VALUES ('"+nomType_Cours+"')";
+        String requete = "INSERT INTO type_cours (NOM) VALUES (?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,type_cours.getNom());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -36,10 +37,10 @@ public class Type_CoursDAO extends DAO<TypeCours> {
 
     @Override
     public boolean supprimer(TypeCours type_cours) {
-        int idType_Cours = type_cours.getId();
-        String requete = "DELETE FROM type_cours WHERE ID="+idType_Cours;
+        String requete = "DELETE FROM type_cours WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,type_cours.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -58,11 +59,11 @@ public class Type_CoursDAO extends DAO<TypeCours> {
 
     @Override
     public boolean miseAJour(TypeCours type_cours) {
-        String nomType_CoursMAJ=type_cours.getNom();
-        int idType_CoursMAJ=type_cours.getId();
-        String requete = "UPDATE type_cours SET NOM='"+nomType_CoursMAJ+"' WHERE ID="+idType_CoursMAJ;
+        String requete = "UPDATE type_cours SET NOM=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,type_cours.getNom());
+            preparedStatement.setInt(2,type_cours.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -70,7 +71,7 @@ public class Type_CoursDAO extends DAO<TypeCours> {
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Modification reussie", "Info", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Modification typecours reussie", "Info", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             }
         }catch (SQLException e){
@@ -81,6 +82,21 @@ public class Type_CoursDAO extends DAO<TypeCours> {
 
     @Override
     public TypeCours chercher(int id) {
-        return TypeCours.getType(id);
+        TypeCours typeCours = null;
+        try {
+            String requete = "SELECT * FROM seance WHERE ID = ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
+            ResultSet resultat=preparedStatement.executeQuery();
+            if(resultat.first())
+            {
+                typeCours= new TypeCours(id,resultat.getString("NOM"));
+            }
+            // TODO ici remplir les tableaux de la seance
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return typeCours;
     }
 }

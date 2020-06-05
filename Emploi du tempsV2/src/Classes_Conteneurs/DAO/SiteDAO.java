@@ -1,12 +1,14 @@
 package Classes_Conteneurs.DAO;
+import Classes_Conteneurs.Etat_Seance;
+import Classes_Conteneurs.Seance;
 import Classes_Conteneurs.Site;
+import Classes_Conteneurs.TypeCours;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 public class SiteDAO extends DAO<Site>{
 
     public SiteDAO(Connection conn) {
@@ -16,10 +18,10 @@ public class SiteDAO extends DAO<Site>{
 
     @Override
     public boolean creer(Site site) {
-    String nomSite=site.getNom();
-    String requete = "INSERT INTO site (NOM) VALUES ('"+nomSite+"')";
+    String requete = "INSERT INTO site (NOM) VALUES (?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,site.getNom());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -39,10 +41,10 @@ public class SiteDAO extends DAO<Site>{
     @Override
     public boolean supprimer(Site site)
     {
-        int idSite = site.getId();
-        String requete = "DELETE FROM site WHERE ID="+idSite;
+        String requete = "DELETE FROM site WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,site.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -61,11 +63,11 @@ public class SiteDAO extends DAO<Site>{
 
     @Override
     public boolean miseAJour(Site site) {
-        String nomSiteMAJ=site.getNom();
-        int idSiteMAJ=site.getId();
-        String requete = "UPDATE site SET NOM='"+nomSiteMAJ+"' WHERE ID="+idSiteMAJ;
+        String requete = "UPDATE site SET NOM=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,site.getNom());
+            preparedStatement.setInt(2,site.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -84,6 +86,19 @@ public class SiteDAO extends DAO<Site>{
 
     @Override
     public Site chercher(int id) {
-        return Site.getSite(id);
+        Site site = null;
+        try {
+            String requete = "SELECT * FROM site WHERE ID = ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
+            ResultSet resultat=preparedStatement.executeQuery();
+            if(resultat.first())
+            {
+                site= new Site(id,resultat.getString("NOM"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return site;
     }
 }

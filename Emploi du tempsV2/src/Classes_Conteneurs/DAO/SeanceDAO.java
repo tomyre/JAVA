@@ -1,10 +1,6 @@
 package Classes_Conteneurs.DAO;
-
-import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Etat_Seance;
 import Classes_Conteneurs.Seance;
-import Classes_Conteneurs.TypeCours;
-
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +23,7 @@ public class SeanceDAO extends DAO<Seance> {
             preparedStatement.setTime(4,seance.getHeureFin());
             preparedStatement.setInt(5,seance.getEtat().getIndiceEtat());
             preparedStatement.setInt(6,seance.getCours());
-            preparedStatement.setInt(7,seance.getTypeCours().getId());
+            preparedStatement.setInt(7,seance.getTypeCours());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -77,7 +73,7 @@ public class SeanceDAO extends DAO<Seance> {
             preparedStatement.setTime(4,seance.getHeureFin());
             preparedStatement.setInt(5,seance.getEtat().getIndiceEtat());
             preparedStatement.setInt(6,seance.getCours());
-            preparedStatement.setInt(7,seance.getTypeCours().getId());
+            preparedStatement.setInt(7,seance.getTypeCours());
             preparedStatement.setInt(8,seance.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
@@ -97,7 +93,7 @@ public class SeanceDAO extends DAO<Seance> {
 
     @Override
     public Seance chercher(int id) {
-        Seance seance = new Seance();
+        Seance seance = null;
         try {
             String requete = "SELECT * FROM seance WHERE ID = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
@@ -105,7 +101,7 @@ public class SeanceDAO extends DAO<Seance> {
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {
-                seance= new Seance(id,resultat.getInt("SEMAINE"),resultat.getDate("DATE"),resultat.getTime("HEURE_DEBUT"),resultat.getTime("HEURE_FIN"),Etat_Seance.getEtat(resultat.getInt("ETAT")),resultat.getInt("ID_COURS"), TypeCours.getType(resultat.getInt("ID_TYPE")));
+                seance= new Seance(id,resultat.getInt("SEMAINE"),resultat.getDate("DATE"),resultat.getTime("HEURE_DEBUT"),resultat.getTime("HEURE_FIN"),Etat_Seance.getEtat(resultat.getInt("ETAT")),resultat.getInt("ID_COURS"), resultat.getInt("ID_TYPE"));
             }
             // TODO ici remplir les tableaux de la seance
 

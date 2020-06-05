@@ -49,4 +49,8 @@ public class Salle {
     public int getSite() {
         return siteId;
     }
+
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
+    }
 }

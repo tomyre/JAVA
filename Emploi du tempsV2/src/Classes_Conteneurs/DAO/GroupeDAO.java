@@ -16,11 +16,11 @@ public class GroupeDAO extends DAO<Groupe> {
 
     @Override
     public boolean creer(Groupe groupe) {
-        String nomGroupe= groupe.getNom();
-        int idPromotion= groupe.getIdPromotion();
-        String requete = "INSERT INTO groupe (NOM, ID_PROMOTION) VALUES ('"+nomGroupe+"',"+idPromotion+")";
+        String requete = "INSERT INTO groupe (NOM, ID_PROMOTION) VALUES (?,?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,groupe.getNom());
+            preparedStatement.setInt(2,groupe.getIdPromotion());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -39,10 +39,10 @@ public class GroupeDAO extends DAO<Groupe> {
 
     @Override
     public boolean supprimer(Groupe groupe) {
-        int idGroupe= groupe.getId();
-        String requete = "DELETE FROM groupe WHERE ID="+idGroupe;
+        String requete = "DELETE FROM groupe WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,groupe.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -61,12 +61,12 @@ public class GroupeDAO extends DAO<Groupe> {
 
     @Override
     public boolean miseAJour(Groupe groupe) {
-        String nomGroupe=groupe.getNom();
-        int idPromotion=groupe.getIdPromotion();
-        int idGroupe=groupe.getId();
-        String requete = "UPDATE groupe SET NOM='"+nomGroupe+"', ID_PROMOTION= "+idPromotion+" WHERE ID="+idGroupe;
+        String requete = "UPDATE groupe SET NOM=?, ID_PROMOTION=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,groupe.getNom());
+            preparedStatement.setInt(2,groupe.getIdPromotion());
+            preparedStatement.setInt(3,groupe.getId());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -85,16 +85,15 @@ public class GroupeDAO extends DAO<Groupe> {
 
     @Override
     public Groupe chercher(int id) {
-        Groupe groupe = new Groupe();
+        Groupe groupe = null;
         try {
-            String requete = "SELECT * FROM groupe WHERE ID = " + id;
+            String requete = "SELECT * FROM groupe WHERE ID = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {
-                String nomGroupe=resultat.getString("NOM");
-                int idPromotion=resultat.getInt("ID_PROMOTION");
-                groupe= new Groupe(id,nomGroupe,idPromotion);
+                groupe= new Groupe(id,resultat.getString("NOM"),resultat.getInt("ID_PROMOTION"));
             }
 
         } catch (SQLException e) {

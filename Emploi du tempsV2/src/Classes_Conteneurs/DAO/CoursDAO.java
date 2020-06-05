@@ -13,10 +13,10 @@ public class CoursDAO extends DAO<Cours>{
     @Override
     public boolean creer(Cours cours)
     {
-        String nomCours= cours.getNomCours();
-        String requete = "INSERT INTO cours (NOM) VALUES ('"+nomCours+"')";
+        String requete = "INSERT INTO cours (NOM) VALUES (?)";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,cours.getNomCours());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -35,10 +35,10 @@ public class CoursDAO extends DAO<Cours>{
 
     @Override
     public boolean supprimer(Cours cours) {
-        int idCours= cours.getIdCours();
-       String requete = "DELETE FROM cours WHERE ID="+idCours;
+       String requete = "DELETE FROM cours WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,cours.getIdCours());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -57,11 +57,11 @@ public class CoursDAO extends DAO<Cours>{
 
     @Override
     public boolean miseAJour(Cours cours) {
-        String nomCoursMAJ=cours.getNomCours();
-        int idCoursMAJ=cours.getIdCours();
-        String requete = "UPDATE cours SET NOM='"+nomCoursMAJ+"' WHERE ID="+idCoursMAJ;
+        String requete = "UPDATE cours SET NOM=? WHERE ID=?";
         try{
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,cours.getNomCours());
+            preparedStatement.setInt(2,cours.getIdCours());
             int sortie=preparedStatement.executeUpdate();
             if(sortie!=1)
             {
@@ -80,10 +80,11 @@ public class CoursDAO extends DAO<Cours>{
 
     @Override
     public Cours chercher(int id) {
-        Cours cours = new Cours();
+        Cours cours = null;
         try {
-            String requete = "SELECT * FROM cours WHERE ID = " + id;
+            String requete = "SELECT * FROM cours WHERE ID = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
             if(resultat.first())
             {
