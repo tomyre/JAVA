@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SeanceDAO extends DAO<Seance> {
     public SeanceDAO(Connection conn) {
@@ -109,5 +110,10 @@ public class SeanceDAO extends DAO<Seance> {
             e.printStackTrace();
         }
         return seance;
+    }
+
+    @Override
+    public ArrayList<Seance> chercher(String colonne, String valeur) {
+        return null;
     }
 }

@@ -1,7 +1,10 @@
 package Classes_Conteneurs.DAO;
 import Classes_Conteneurs.Cours;
+import Classes_Conteneurs.Enseignant;
+
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CoursDAO extends DAO<Cours>{
 
@@ -95,6 +98,42 @@ public class CoursDAO extends DAO<Cours>{
             e.printStackTrace();
         }
         return cours;
+    }
+
+    public ArrayList<Cours> chercher(String colonne, String valeur) {
+        ArrayList<Cours> listeCours= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM cours WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Cours cours= new Cours(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeCours.add(cours);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeCours;
+    }
+
+    public ArrayList<Cours> chercher(String colonne, int valeur) {
+        ArrayList<Cours> listeCours= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM cours WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Cours cours= new Cours(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeCours.add(cours);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeCours;
     }
 }
 

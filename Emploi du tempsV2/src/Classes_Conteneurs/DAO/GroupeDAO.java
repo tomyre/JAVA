@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GroupeDAO extends DAO<Groupe> {
     public GroupeDAO(Connection conn) {
@@ -100,5 +101,10 @@ public class GroupeDAO extends DAO<Groupe> {
             e.printStackTrace();
         }
         return groupe;
+    }
+
+    @Override
+    public ArrayList<Groupe> chercher(String colonne, String valeur) {
+        return null;
     }
 }

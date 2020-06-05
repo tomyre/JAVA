@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class SiteDAO extends DAO<Site>{
 
     public SiteDAO(Connection conn) {
@@ -100,5 +102,10 @@ public class SiteDAO extends DAO<Site>{
             e.printStackTrace();
         }
         return site;
+    }
+
+    @Override
+    public ArrayList<Site> chercher(String colonne, String valeur) {
+        return null;
     }
 }

@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Type_CoursDAO extends DAO<TypeCours> {
     public Type_CoursDAO(Connection conn) {
         super(conn);
@@ -98,5 +100,10 @@ public class Type_CoursDAO extends DAO<TypeCours> {
             e.printStackTrace();
         }
         return typeCours;
+    }
+
+    @Override
+    public ArrayList<TypeCours> chercher(String colonne, String valeur) {
+        return null;
     }
 }

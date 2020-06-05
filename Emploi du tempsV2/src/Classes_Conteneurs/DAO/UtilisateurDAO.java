@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class UtilisateurDAO extends DAO<Utilisateur>{
@@ -113,5 +114,35 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
             e.printStackTrace();
         }
         return utilisateur;
+    }
+
+    @Override
+    public ArrayList<Utilisateur> chercher(String colonne, String valeur) {
+        return null;
+    }
+
+    public Utilisateur chercher(String email){
+        Utilisateur retour= null;
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE EMAIL =?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,email);
+            ResultSet resultat=preparedStatement.executeQuery();
+            if(resultat.first())
+            {
+                String nom= resultat.getString("NOM");
+                String prenom= resultat.getString("PRENOM");
+                String mdp=resultat.getString("PASSWD");
+                String mail=resultat.getString("EMAIL");
+                int droit =resultat.getInt("DROIT");
+                int id= resultat.getInt("ID");
+                retour= new Utilisateur(id,nom,prenom,mail,mdp,Droit.getDroit(droit));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return retour;
+
     }
 }

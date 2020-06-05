@@ -10,6 +10,10 @@ public class TypeCours {
         this.nom = nom;
     }
 
+    public TypeCours(String nom) {
+        this.nom = nom;
+    }
+
     public int getId() {
         return id;
     }

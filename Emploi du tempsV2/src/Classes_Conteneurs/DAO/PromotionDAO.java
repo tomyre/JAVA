@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PromotionDAO extends DAO<Promotion> {
     public PromotionDAO(Connection conn) {
@@ -96,5 +97,10 @@ public class PromotionDAO extends DAO<Promotion> {
             e.printStackTrace();
         }
         return promotion;
+    }
+
+    @Override
+    public ArrayList<Promotion> chercher(String colonne, String valeur) {
+        return null;
     }
 }

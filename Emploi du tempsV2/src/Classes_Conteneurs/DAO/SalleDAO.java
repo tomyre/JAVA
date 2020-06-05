@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SalleDAO extends DAO<Salle>{
     public SalleDAO(Connection conn) {
@@ -101,6 +102,11 @@ public class SalleDAO extends DAO<Salle>{
             e.printStackTrace();
         }
         return salle;
+    }
+
+    @Override
+    public ArrayList<Salle> chercher(String colonne, String valeur) {
+        return null;
     }
 }
 
