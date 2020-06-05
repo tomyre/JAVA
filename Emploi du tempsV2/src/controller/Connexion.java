@@ -37,15 +37,27 @@ public class Connexion {
      */
     public Connexion(String nameDatabase, String loginDatabase, String passwordDatabase) throws SQLException, ClassNotFoundException{
         // chargement driver "com.mysql.jdbc.Driver"
-       Class.forName("com.mysql.jdbc.Driver");   
-       
+       Class.forName("com.mysql.jdbc.Driver");
+
        String urlDatabase = "jdbc:mysql://localhost/" + nameDatabase;
-       
-       //création d'une connexion JDBC à la base 
+
+       //création d'une connexion JDBC à la base
        conn = DriverManager.getConnection(urlDatabase, loginDatabase, passwordDatabase);;
        // création d'un ordre SQL (statement)
         stmt = conn.createStatement();
         //System.out.println("connexion reussi");
+        }
+        public static Connection getInstance() throws ClassNotFoundException {
+            // chargement driver "com.mysql.jdbc.Driver"
+            Class.forName("com.mysql.jdbc.Driver");
+            String urlDatabase = "jdbc:mysql://localhost/bddjava";
+            //création d'une connexion JDBC à la base
+            try {
+                return DriverManager.getConnection(urlDatabase, "Adam", "Adam");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return null;
+            }
         }
 
    public int RecupererDonnees(String email, String mdp) throws SQLException{
@@ -76,99 +88,7 @@ public class Connexion {
         return -1;
    }  
 
-    public int RecupererID(String email, String mdp) throws SQLException{
-  
-      requete = "SELECT * FROM utilisateur WHERE EMAIL='"+email+"'";
-    
-        try{
-            rset =stmt.executeQuery(requete);
-            rset.next();
-            if(rset!=null)
-            {
-                String mdpBD=rset.getString("PASSWD");
-                boolean motDepasseValide=(mdpBD.equals(mdp));
-                if(motDepasseValide)
-                {
-                    return rset.getInt("ID");
-                     
-                } 
-                else
-                {
-                    
-                    System.out.println("erreur"); //JOptionPane.showMessageDialog(null, "Identifiants ou password incorrects try again", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    //System.out.println("Identifiants ou password incorrects try again");
-                }
-            }
-        } catch (SQLException e){
-            System.out.println("erreur");//JOptionPane.showMessageDialog(null, "Identifiants ou password incorrects try again", "Erreur", JOptionPane.ERROR_MESSAGE);
 
-        }
-        return -1;
-        
-        
-    }
-    
-    public void OperationMofidication(String table,String colonne,String ID, String modif){
-        requete = "UPDATE "+table+" SET "+colonne+"= '"+modif+"' WHERE ID = "+ID;
-        System.out.println(requete);
-        try{
-            int res = stmt.executeUpdate(requete);
-            if(res!=1)
-            {
-                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+res, "ERREUR", JOptionPane.ERROR_MESSAGE);
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Modification reussie", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erreur 1 probleme de syntaxe dans la requete SQL", "ERREUR", JOptionPane.ERROR_MESSAGE);
-        }
-
-   }
-    
-    
-   public void OperationSuppression(String table,String IDParams){
-       
-       requete = "DELETE FROM "+ table+" WHERE ID="+IDParams;
-       System.out.println(requete);
-        try{
-            int res = stmt.executeUpdate(requete);
-            //res = stmt.executeUpdate(requete);
-            if(res!=1)
-            {
-                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+res, "ERREUR", JOptionPane.ERROR_MESSAGE);
-            } 
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Site supprimé", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erreur 1 probleme de syntaxe dans la requete SQL", "ERREUR", JOptionPane.ERROR_MESSAGE);
-        }          
-   }       
-
-    public void OperationInsertionCours(String NomCours){
-        requete = "INSERT INTO cours (NOM) VALUES ('"+NomCours+"')";
-       System.out.println(requete);
-        try{
-            int res = stmt.executeUpdate(requete);
-            if(res!=1)
-            {
-                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+res, "ERREUR", JOptionPane.ERROR_MESSAGE);
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Cours insere", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erreur 1 probleme de syntaxe dans la requete SQL", "ERREUR", JOptionPane.ERROR_MESSAGE);
-        }
-   }  
-   
 /**
      * Methode qui retourne l'ArrayList des champs de la requete en parametre
      * @param requete
