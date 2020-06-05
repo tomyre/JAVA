@@ -84,7 +84,7 @@ public class Type_CoursDAO extends DAO<TypeCours> {
     public TypeCours chercher(int id) {
         TypeCours typeCours = null;
         try {
-            String requete = "SELECT * FROM seance WHERE ID = ?";
+            String requete = "SELECT * FROM type_cours WHERE ID = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(requete);
             preparedStatement.setInt(1,id);
             ResultSet resultat=preparedStatement.executeQuery();
