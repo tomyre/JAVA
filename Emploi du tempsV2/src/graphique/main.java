@@ -20,11 +20,16 @@ public class main {
     }
     */
     
-    
-    public static void main(String[] s) throws SQLException {
+    /*
+    public static void main(String[] s) throws SQLException, ClassNotFoundException {
         // creation de la fenetre
         PageRP f = new PageRP();
     }
+    */
     
+    public static void main(String[] s) throws SQLException, ClassNotFoundException {
+        // creation de la fenetre
+        Admin f = new Admin();
+    }
 
 }
