@@ -21,14 +21,14 @@ import javax.swing.*;
  *
  * @author azglr
  */
-public class PageRP extends JFrame implements ActionListener {
+public class Admin extends JFrame implements ActionListener {
     
-    private final JLabel salle,matières, personnes, vide, rien, nada;
-    private final JButton salles, selectCours, selectCategories;
-    private final JPanel panel1, panel2, panel3, nord;
+    private final JLabel salle,matières, personnes, vide, rien, nada, v, r, n, modifier, supprimer, inserer;
+    private final JButton salles, selectCours, selectCategories, selectModif, selectSup, selectInsert;
+    private final JPanel panel1, panel2, panel3, panel4, panel5, nord;
     private final JComboBox cours, pers;
     private final JTextArea fenetreLignes;
-    private final JTextField saisieInfos;
+    private final JTextField saisieInfos, saisieInfosModif, saisieInfosSup, saisieInfosInsert;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
     private Statement stmt;
@@ -36,10 +36,10 @@ public class PageRP extends JFrame implements ActionListener {
     
     Object tab[] = new Object[] {"etudiant", "enseignant", "promotion", "groupe"};
     
-    public PageRP() throws SQLException, ClassNotFoundException{
+    public Admin() throws SQLException, ClassNotFoundException{
         
 	//création par héritage de la fenêtre
-        super("Page Référent Pédagogique");
+        super("Page Admin");
         
         conn = new Connexion("bddjava","root","");
         
@@ -53,6 +53,9 @@ public class PageRP extends JFrame implements ActionListener {
         salles = new JButton("Les salles");
         selectCours = new JButton("Rechercher");
         selectCategories = new JButton("Rechercher");
+        selectModif = new JButton("Modifier");
+        selectSup = new JButton("Supprimer");
+        selectInsert = new JButton("Inserer");
         
         //création des JComboBox
         cours = new JComboBox(conn.AfficherCours());
@@ -60,6 +63,9 @@ public class PageRP extends JFrame implements ActionListener {
         
         //création des JTextField
         saisieInfos = new JTextField();
+        saisieInfosModif = new JTextField();
+        saisieInfosSup = new JTextField();
+        saisieInfosInsert = new JTextField();
         
         //création des textes
         fenetreLignes = new JTextArea();
@@ -71,6 +77,12 @@ public class PageRP extends JFrame implements ActionListener {
         personnes = new JLabel("Catégories de recherches", JLabel.CENTER);
         rien = new JLabel(" ", JLabel.CENTER);
         nada = new JLabel(" ", JLabel.CENTER);
+        modifier = new JLabel("Modification", JLabel.CENTER);
+        v = new JLabel(" ", JLabel.CENTER);
+        supprimer = new JLabel("Suppression", JLabel.CENTER);
+        r = new JLabel(" ", JLabel.CENTER);
+        inserer = new JLabel("Insertion", JLabel.CENTER);
+        n = new JLabel(" ", JLabel.CENTER);
         
         //création des panneaux
         panel1 = new JPanel();
@@ -80,10 +92,16 @@ public class PageRP extends JFrame implements ActionListener {
         panel2.setLayout(new GridLayout(1,5));
         
         panel3 = new JPanel();
-        panel3.setLayout(new GridLayout(1,1));
+        panel3.setLayout(new GridLayout(1,6));
+        
+        panel4 = new JPanel();
+        panel4.setLayout(new GridLayout(1,6));
+        
+        panel5 = new JPanel();
+        panel5.setLayout(new GridLayout(1,1));
         
         nord = new JPanel();
-        nord.setLayout(new GridLayout(2,1));
+        nord.setLayout(new GridLayout(4,1));
         
         //ajout des objets dans les panneaux 
         panel1.add(salle);
@@ -100,20 +118,38 @@ public class PageRP extends JFrame implements ActionListener {
         panel2.add(saisieInfos);
         panel2.add(selectCategories);
         
-        panel3.add(fenetreLignes);
+        panel3.add(modifier);
+        panel3.add(v);
+        panel3.add(supprimer);
+        panel3.add(r);
+        panel3.add(inserer);
+        panel3.add(n);
+        
+        panel4.add(saisieInfosModif);
+        panel4.add(selectModif);
+        panel4.add(saisieInfosSup);
+        panel4.add(selectSup);
+        panel4.add(saisieInfosInsert);
+        panel4.add(selectInsert);
+        
+        panel5.add(fenetreLignes);
         
         nord.add("North", panel1);
         nord.add("North", panel2);
-        
-        
+        nord.add("North", panel3);
+        nord.add("North", panel4);
+       
         //ajout des listener
         salles.addActionListener(this);
         selectCours.addActionListener(this);
         selectCategories.addActionListener(this);
+        selectModif.addActionListener(this);
+        selectSup.addActionListener(this);
+        selectInsert.addActionListener(this);
         
         //disposition géographique des panneaux
         add("North", nord);
-        add("Center", panel3);
+        add("Center", panel5);
            
         // le prgm s'arrête lorsuqe l'on ferme la fenetre
         addWindowListener(new WindowAdapter() {
@@ -257,10 +293,21 @@ public class PageRP extends JFrame implements ActionListener {
                 String persBox =  (String) pers.getSelectedItem();
                 String infos = saisieInfos.getText();
                 AfficherInfos(persBox, infos);
-            } 
+                
+            } else if (source == selectModif) {
+                //String modif = saisieModif.getText();
+                //conn.OperationMofidication(table, colonne, ID, modif);
+                
+            } else if (source == selectSup) {
+                
+                
+            } else if (source == selectInsert) {
+                
+            }
         }
 
     private Object getId(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
+
