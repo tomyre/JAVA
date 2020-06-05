@@ -1,5 +1,6 @@
 package Classes_Conteneurs.DAO;
 
+import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Enseignant;
 import Classes_Conteneurs.Etudiant;
 
@@ -102,9 +103,21 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
         }
         return etudiant;
     }
-
-    @Override
-    public ArrayList<Etudiant> chercher(String colonne, String valeur) {
-        return null;
+    public ArrayList<Etudiant> chercher(String colonne, int valeur) {
+        ArrayList<Etudiant> listeEtudiants= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM etudiant WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Etudiant etudiant= new Etudiant(resultat.getInt("NUMERO"),resultat.getInt("ID_UTILISATEUR"),resultat.getInt("ID_GROUPE"));
+                listeEtudiants.add(etudiant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeEtudiants;
     }
 }

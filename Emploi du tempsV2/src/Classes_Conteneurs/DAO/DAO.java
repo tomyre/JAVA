@@ -37,5 +37,4 @@ public abstract class DAO<T> {
      */
     public abstract T chercher(int id);
 
-    public abstract ArrayList<T> chercher(String colonne,String valeur);
 }

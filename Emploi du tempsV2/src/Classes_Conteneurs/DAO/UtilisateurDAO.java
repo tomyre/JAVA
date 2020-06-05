@@ -2,6 +2,7 @@ package Classes_Conteneurs.DAO;
 
 import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Droit;
+import Classes_Conteneurs.TypeCours;
 import Classes_Conteneurs.Utilisateur;
 
 import javax.swing.*;
@@ -116,9 +117,42 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
         return utilisateur;
     }
 
-    @Override
     public ArrayList<Utilisateur> chercher(String colonne, String valeur) {
-        return null;
+        ArrayList<Utilisateur> listeUtilisateur= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Droit droit= Droit.getDroit(resultat.getInt("DROIT"));
+                Utilisateur utilisateur= new Utilisateur(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getString("PRENOM"),resultat.getString("EMAIL"),resultat.getString("PASSWD"),droit);
+                listeUtilisateur.add(utilisateur);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeUtilisateur;
+    }
+
+    public ArrayList<Utilisateur> chercher(String colonne, int valeur) {
+        ArrayList<Utilisateur> listeUtilisateur= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Droit droit= Droit.getDroit(resultat.getInt("DROIT"));
+                Utilisateur utilisateur= new Utilisateur(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getString("PRENOM"),resultat.getString("EMAIL"),resultat.getString("PASSWD"),droit);
+                listeUtilisateur.add(utilisateur);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeUtilisateur;
     }
 
     public Utilisateur chercher(String email){

@@ -1,4 +1,5 @@
 package Classes_Conteneurs.DAO;
+import Classes_Conteneurs.Promotion;
 import Classes_Conteneurs.Salle;
 
 
@@ -104,9 +105,39 @@ public class SalleDAO extends DAO<Salle>{
         return salle;
     }
 
-    @Override
     public ArrayList<Salle> chercher(String colonne, String valeur) {
-        return null;
+        ArrayList<Salle> listeSalle= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM salle WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Salle salle= new Salle(resultat.getInt("ID"),resultat.getInt("CAPACITE"),resultat.getString("CAPACITE"),resultat.getInt("ID_SITE"));
+                listeSalle.add(salle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeSalle;
+    }
+    public ArrayList<Salle> chercher(String colonne, int valeur) {
+        ArrayList<Salle> listeSalle= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM salle WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Salle salle= new Salle(resultat.getInt("ID"),resultat.getInt("CAPACITE"),resultat.getString("CAPACITE"),resultat.getInt("ID_SITE"));
+                listeSalle.add(salle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeSalle;
     }
 }
 

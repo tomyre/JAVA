@@ -102,7 +102,6 @@ public class EnseignantDAO extends DAO<Enseignant> {
         return enseignant;
     }
 
-    @Override
     public ArrayList<Enseignant> chercher(String colonne, String valeur) {
         ArrayList<Enseignant> listeEnsignants= new ArrayList<>();
         try {

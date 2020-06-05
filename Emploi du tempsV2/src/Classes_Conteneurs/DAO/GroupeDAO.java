@@ -1,6 +1,7 @@
 package Classes_Conteneurs.DAO;
 
 import Classes_Conteneurs.Cours;
+import Classes_Conteneurs.Enseignant;
 import Classes_Conteneurs.Groupe;
 
 import javax.swing.*;
@@ -102,9 +103,38 @@ public class GroupeDAO extends DAO<Groupe> {
         }
         return groupe;
     }
-
-    @Override
+    public ArrayList<Groupe> chercher(String colonne, int valeur) {
+        ArrayList<Groupe> listeGroupes= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM groupe WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Groupe groupe= new Groupe(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getInt("ID_PROMOTION"));
+                listeGroupes.add(groupe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeGroupes;
+    }
     public ArrayList<Groupe> chercher(String colonne, String valeur) {
-        return null;
+        ArrayList<Groupe> listeGroupes= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM groupe WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Groupe groupe= new Groupe(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getInt("ID_PROMOTION"));
+                listeGroupes.add(groupe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeGroupes;
     }
 }

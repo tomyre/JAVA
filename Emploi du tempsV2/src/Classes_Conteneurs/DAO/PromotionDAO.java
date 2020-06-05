@@ -1,4 +1,5 @@
 package Classes_Conteneurs.DAO;
+import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Promotion;
 
 import javax.swing.*;
@@ -99,8 +100,38 @@ public class PromotionDAO extends DAO<Promotion> {
         return promotion;
     }
 
-    @Override
+    public ArrayList<Promotion> chercher(String colonne, int valeur) {
+        ArrayList<Promotion> listePromotion= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM promotion WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Promotion promotion= new Promotion(resultat.getInt("ID"),resultat.getString("NOM"));
+                listePromotion.add(promotion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listePromotion;
+    }
     public ArrayList<Promotion> chercher(String colonne, String valeur) {
-        return null;
+        ArrayList<Promotion> listePromotion= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM promotion WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Promotion promotion= new Promotion(resultat.getInt("ID"),resultat.getString("NOM"));
+                listePromotion.add(promotion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listePromotion;
     }
 }
