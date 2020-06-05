@@ -46,4 +46,7 @@ public class DAOFactory {
     public static DAO getUtilisateur(){
         return new UtilisateurDAO(conn);
     }
+    public static Seance_GroupeDAO getSeanceGroupe(){
+        return new Seance_GroupeDAO(conn);
+    }
 }

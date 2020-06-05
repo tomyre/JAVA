@@ -6,11 +6,33 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
-        ArrayList<Cours> userRecherche= coursDAO.chercher("NOM","Informatique");
-        Cours cours=userRecherche.get(0);
-        System.out.println("ID: "+cours.getIdCours());
-        System.out.println("NOM: "+cours.getNomCours());
+        // Trouver etudiant Numero-> Etudiant -> ID GROUPE(1)-> SEANCE(0->*)
+        // Checher l'etudiant a partir de son numero
+        EtudiantDAO etudiantDAO = (EtudiantDAO) DAOFactory.getEtudiantDAO();
+        ArrayList<Etudiant> etudiantListe= etudiantDAO.chercher("NUMERO",1106);
+        if(etudiantListe.isEmpty())
+        {
+           return;
+        }
+        Etudiant etudiant=etudiantListe.get(0);
+
+        // chercher groupe de l'etudiant
+        GroupeDAO groupeDAO = (GroupeDAO) DAOFactory.getGroupeDAO();
+        Groupe groupeEtudiant= groupeDAO.chercher(etudiant.getIdGroupe());
+
+        Seance_GroupeDAO seance_groupeDAO= DAOFactory.getSeanceGroupe();
+        ArrayList<Integer> listeIdSeances=seance_groupeDAO.chercherSeances(groupeEtudiant.getId());
+
+        SeanceDAO seanceDAO=(SeanceDAO) DAOFactory.getSeanceDAO();
+        int taille=listeIdSeances.size();
+        for(int i=0;i<taille;i++)
+        {
+            Seance seanceCourante =seanceDAO.chercher(listeIdSeances.get(i));
+            System.out.print("ID SEANCE= "+seanceCourante.getId());
+            System.out.print("  DATE= "+seanceCourante.getDate());
+            System.out.print("  DEBUT= "+seanceCourante.getHeureDebut());
+            System.out.println("  FIN= "+seanceCourante.getHeureFin());
+        }
     }
 
 }

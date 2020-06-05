@@ -41,7 +41,7 @@ public class Admin extends JFrame implements ActionListener {
 	//création par héritage de la fenêtre
         super("Page Admin");
         
-        conn = new Connexion("bddjava","root","");
+        conn = new Connexion("bddjava","Adam","Adam");
         
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());

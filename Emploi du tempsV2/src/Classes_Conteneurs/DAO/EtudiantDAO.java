@@ -112,7 +112,7 @@ public class EtudiantDAO extends DAO<Classes_Conteneurs.Etudiant>{
             ResultSet resultat=preparedStatement.executeQuery();
             while (resultat.next())
             {
-                Etudiant etudiant= new Etudiant(resultat.getInt("NUMERO"),resultat.getInt("ID_UTILISATEUR"),resultat.getInt("ID_GROUPE"));
+                Etudiant etudiant= new Etudiant(resultat.getInt("NUMERO"),resultat.getInt("ID_GROUPE"),resultat.getInt("ID_UTILISATEUR"));
                 listeEtudiants.add(etudiant);
             }
         } catch (SQLException e) {
