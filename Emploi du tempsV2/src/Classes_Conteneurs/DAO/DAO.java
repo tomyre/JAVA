@@ -1,5 +1,7 @@
 package Classes_Conteneurs.DAO;
 import java.sql.Connection;
+import java.util.ArrayList;
+
 public abstract class DAO<T> {
     protected Connection connect = null;
 
@@ -34,4 +36,5 @@ public abstract class DAO<T> {
      * @return T
      */
     public abstract T chercher(int id);
+
 }

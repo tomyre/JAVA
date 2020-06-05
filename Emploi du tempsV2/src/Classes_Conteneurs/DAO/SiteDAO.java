@@ -1,14 +1,13 @@
 package Classes_Conteneurs.DAO;
-import Classes_Conteneurs.Etat_Seance;
-import Classes_Conteneurs.Seance;
-import Classes_Conteneurs.Site;
-import Classes_Conteneurs.TypeCours;
+import Classes_Conteneurs.*;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class SiteDAO extends DAO<Site>{
 
     public SiteDAO(Connection conn) {
@@ -100,5 +99,41 @@ public class SiteDAO extends DAO<Site>{
             e.printStackTrace();
         }
         return site;
+    }
+
+
+    public ArrayList<Site> chercher(String colonne, String valeur) {
+        ArrayList<Site> listeSites= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM site WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Site site= new Site(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeSites.add(site);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeSites;
+    }
+    public ArrayList<Site> chercher(String colonne, int valeur) {
+        ArrayList<Site> listeSites= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM site WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Site site= new Site(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeSites.add(site);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeSites;
     }
 }

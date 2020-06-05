@@ -1,4 +1,5 @@
 package Classes_Conteneurs.DAO;
+import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Promotion;
 
 import javax.swing.*;
@@ -6,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PromotionDAO extends DAO<Promotion> {
     public PromotionDAO(Connection conn) {
@@ -96,5 +98,40 @@ public class PromotionDAO extends DAO<Promotion> {
             e.printStackTrace();
         }
         return promotion;
+    }
+
+    public ArrayList<Promotion> chercher(String colonne, int valeur) {
+        ArrayList<Promotion> listePromotion= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM promotion WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Promotion promotion= new Promotion(resultat.getInt("ID"),resultat.getString("NOM"));
+                listePromotion.add(promotion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listePromotion;
+    }
+    public ArrayList<Promotion> chercher(String colonne, String valeur) {
+        ArrayList<Promotion> listePromotion= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM promotion WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Promotion promotion= new Promotion(resultat.getInt("ID"),resultat.getString("NOM"));
+                listePromotion.add(promotion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listePromotion;
     }
 }

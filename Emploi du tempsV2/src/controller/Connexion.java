@@ -399,53 +399,53 @@ public class Connexion {
             int idSeanceCourante=rset3.getInt("ID_SEANCE");
             String nouveauMorceauRequete=rset3.isFirst()?" WHERE ID = "+idSeanceCourante:" OR ID="+idSeanceCourante;
             requete4+=nouveauMorceauRequete;
-           
+
         }
         rset4=stmt.executeQuery(requete4);
         rsetMeta=rset4.getMetaData();
-         
+
         //calcul du nombre de colonnes du résultats
         int nbColonne= rsetMeta.getColumnCount();
-         
+
         // creation d'une ArrayList de String
         ArrayList<String> liste;
         liste = new ArrayList<>();
-        
+
         while(rset4.next()) //affichage tant qu'il reste un ligne à afficher
         {
             String champs="";
             if(rset4.isFirst())
             {
-              
+
                 for (int i = 1; i <= nbColonne; i++) {
                      champs += rsetMeta.getColumnName(i)+", ";
                 }
-              
+
                 champs+="/n";
                 liste.add(champs);
             }
-            
+
             champs=""; // ajouter premier champ
-            
+
             for (int i = 1; i <= nbColonne; i++) {
                 champs += rset4.getString(i)+", ";
             }
-            
+
             champs+="/n";
             liste.add(champs);
         }
-           
+
         return liste;
     }
     */
 
     public ArrayList RemplirChampsRequeteInfos3(String requete1) throws SQLException {
-        
+
         // récupération de l'ordre de la requete
         rset = stmt.executeQuery(requete1);
         rset.next();
         String ID_PROMO =rset.getString("ID");
-        
+
         requete2 = "SELECT ID FROM groupe WHERE ID_PROMOTION ='" + ID_PROMO +"'";
         rset2 = stmt.executeQuery(requete2);
         requete3 = "SELECT ID_SEANCE FROM seance_groupes";
@@ -457,57 +457,57 @@ public class Connexion {
         }
         rset3=stmt.executeQuery(requete3);
         requete4 = "SELECT SEMAINE, DATE, HEURE_DEBUT, HEURE_FIN, ETAT, ID_COURS, ID_TYPE FROM seance";
-        while(rset3.next()) //boucle qui récupère toutes les séances des différents groupes de la même promo 
+        while(rset3.next()) //boucle qui récupère toutes les séances des différents groupes de la même promo
         {
             int idSeanceCourante=rset3.getInt("ID_SEANCE");
             String nouveauMorceauRequete=rset3.isFirst()?" WHERE ID="+idSeanceCourante:" OR ID="+idSeanceCourante;
             requete4+=nouveauMorceauRequete;
-           
+
         }
         rset4=stmt.executeQuery(requete4);
         rsetMeta=rset4.getMetaData();
-         
+
         //calcul du nombre de colonnes du résultats
         int nbColonne= rsetMeta.getColumnCount();
-         
+
         // creation d'une ArrayList de String
         ArrayList<String> liste;
         liste = new ArrayList<>();
-        
+
         while(rset4.next()) //affichage tant qu'il reste un ligne à afficher
         {
             String champs="";
             if(rset4.isFirst())
             {
-              
+
                 for (int i = 1; i <= nbColonne; i++) {
                      champs += rsetMeta.getColumnName(i)+", ";
                 }
-              
+
                 champs+="/n";
                 liste.add(champs);
             }
-            
+
             champs=""; // ajouter premier champ
-            
+
             for (int i = 1; i <= nbColonne; i++) {
                 champs += rset4.getString(i)+", ";
             }
-            
+
             champs+="/n";
             liste.add(champs);
         }
-           
+
         return liste;
     }
-    
+
     public ArrayList RemplirChampsRequeteInfos4(String requete1) throws SQLException {
-        
+
         // récupération de l'ordre de la requete
         rset = stmt.executeQuery(requete1);
         rset.next();
         String ID = rset.getString("ID");
-        
+
         requete2 = "SELECT ID_SEANCE FROM seance_groupes WHERE ID_GROUPE = '" + ID + "'";
         rset2 = stmt.executeQuery(requete2);
         requete3 = "SELECT SEMAINE, DATE, HEURE_DEBUT, HEURE_FIN, ETAT, ID_COURS, ID_TYPE FROM seance";
@@ -519,14 +519,14 @@ public class Connexion {
         }
         rset3 = stmt.executeQuery(requete3);
         rsetMeta = rset3.getMetaData();
-        
+
         //calcul le nb de colonne du résultat
         int nbColonne = rsetMeta.getColumnCount();
-        
+
         //création d'une Arraylist de String
         ArrayList<String> liste;
         liste = new ArrayList<>();
-        
+
         while (rset3.next()) //remplissage de la liste tant qu'il reste une ligne
         {
             String champs = "";
@@ -538,15 +538,15 @@ public class Connexion {
                 champs+="/n";
                 liste.add(champs);
             }
-            champs=""; 
-            
+            champs="";
+
             for (int i = 1; i <= nbColonne; i++) {
                      champs += rset3.getString(i)+", ";
                 }
             champs+="/n";
             liste.add(champs);
         }
-        
+
         return liste;
     }
 

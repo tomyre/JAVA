@@ -1,15 +1,16 @@
 package Classes_Conteneurs.DAO;
 
-import Classes_Conteneurs.Salle;
-import Classes_Conteneurs.Seance;
-import Classes_Conteneurs.TypeCours;
-import Classes_Conteneurs.Utilisateur;
+import Classes_Conteneurs.*;
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        DAO <TypeCours>seanceDAO = DAOFactory.getTypeCours();
-       TypeCours nouveau= seanceDAO.chercher(6);
-       System.out.println("Le cours d'id ="+nouveau.getId()+" s'appelle->> "+nouveau.getNom());
+        CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
+        ArrayList<Cours> userRecherche= coursDAO.chercher("NOM","Informatique");
+        Cours cours=userRecherche.get(0);
+        System.out.println("ID: "+cours.getIdCours());
+        System.out.println("NOM: "+cours.getNomCours());
     }
 
 }

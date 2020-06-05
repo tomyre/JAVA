@@ -2,6 +2,7 @@ package Classes_Conteneurs.DAO;
 
 import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.Droit;
+import Classes_Conteneurs.TypeCours;
 import Classes_Conteneurs.Utilisateur;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class UtilisateurDAO extends DAO<Utilisateur>{
@@ -113,5 +115,68 @@ public class UtilisateurDAO extends DAO<Utilisateur>{
             e.printStackTrace();
         }
         return utilisateur;
+    }
+
+    public ArrayList<Utilisateur> chercher(String colonne, String valeur) {
+        ArrayList<Utilisateur> listeUtilisateur= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Droit droit= Droit.getDroit(resultat.getInt("DROIT"));
+                Utilisateur utilisateur= new Utilisateur(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getString("PRENOM"),resultat.getString("EMAIL"),resultat.getString("PASSWD"),droit);
+                listeUtilisateur.add(utilisateur);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeUtilisateur;
+    }
+
+    public ArrayList<Utilisateur> chercher(String colonne, int valeur) {
+        ArrayList<Utilisateur> listeUtilisateur= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Droit droit= Droit.getDroit(resultat.getInt("DROIT"));
+                Utilisateur utilisateur= new Utilisateur(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getString("PRENOM"),resultat.getString("EMAIL"),resultat.getString("PASSWD"),droit);
+                listeUtilisateur.add(utilisateur);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeUtilisateur;
+    }
+
+    public Utilisateur chercher(String email){
+        Utilisateur retour= null;
+        try {
+            String requete = "SELECT * FROM utilisateur WHERE EMAIL =?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,email);
+            ResultSet resultat=preparedStatement.executeQuery();
+            if(resultat.first())
+            {
+                String nom= resultat.getString("NOM");
+                String prenom= resultat.getString("PRENOM");
+                String mdp=resultat.getString("PASSWD");
+                String mail=resultat.getString("EMAIL");
+                int droit =resultat.getInt("DROIT");
+                int id= resultat.getInt("ID");
+                retour= new Utilisateur(id,nom,prenom,mail,mdp,Droit.getDroit(droit));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return retour;
+
     }
 }

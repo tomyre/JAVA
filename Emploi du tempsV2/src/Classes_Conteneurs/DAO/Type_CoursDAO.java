@@ -2,12 +2,15 @@ package Classes_Conteneurs.DAO;
 
 import Classes_Conteneurs.Etat_Seance;
 import Classes_Conteneurs.Seance;
+import Classes_Conteneurs.Site;
 import Classes_Conteneurs.TypeCours;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Type_CoursDAO extends DAO<TypeCours> {
     public Type_CoursDAO(Connection conn) {
         super(conn);
@@ -99,4 +102,41 @@ public class Type_CoursDAO extends DAO<TypeCours> {
         }
         return typeCours;
     }
+
+
+    public ArrayList<TypeCours> chercher(String colonne, String valeur) {
+        ArrayList<TypeCours> listeTypeCours= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM type_cours WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                TypeCours typeCours= new TypeCours(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeTypeCours.add(typeCours);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeTypeCours;
+    }
+    public ArrayList<TypeCours> chercher(String colonne, int valeur) {
+        ArrayList<TypeCours> listeTypeCours= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM type_cours WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                TypeCours typeCours= new TypeCours(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeTypeCours.add(typeCours);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeTypeCours;
+    }
+
 }

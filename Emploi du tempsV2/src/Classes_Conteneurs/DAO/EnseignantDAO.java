@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class EnseignantDAO extends DAO<Enseignant> {
     public EnseignantDAO(Connection conn) {
@@ -99,5 +100,40 @@ public class EnseignantDAO extends DAO<Enseignant> {
             e.printStackTrace();
         }
         return enseignant;
+    }
+
+    public ArrayList<Enseignant> chercher(String colonne, String valeur) {
+        ArrayList<Enseignant> listeEnsignants= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM enseignant WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setString(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Enseignant enseignant= new Enseignant(resultat.getInt("ID_UTILISATEUR"),resultat.getInt("ID_COURS"));
+                listeEnsignants.add(enseignant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeEnsignants;
+    }
+    public ArrayList<Enseignant> chercher(String colonne, int valeur) {
+        ArrayList<Enseignant> listeEnsignants= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM enseignant WHERE "+ colonne+ "= ?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,valeur);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Enseignant enseignant= new Enseignant(resultat.getInt("ID_UTILISATEUR"),resultat.getInt("ID_COURS"));
+                listeEnsignants.add(enseignant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeEnsignants;
     }
 }
