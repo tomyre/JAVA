@@ -17,11 +17,16 @@ public enum Etat_Seance {
         return this.indiceEtat;
     }
     public static Etat_Seance getEtat(int droit){
-        return switch (droit) {
-            case 1 ->Etat_Seance.EN_COURS;
-            case 2 -> Etat_Seance.VALIDEE;
-            case 3 -> Etat_Seance.ANNULEE;
-            default -> Etat_Seance.INCONNU;
-        };
+        switch (droit)
+        {
+            case 1:
+                return Etat_Seance.EN_COURS;
+            case 2:
+                return Etat_Seance.VALIDEE;
+            case 3:
+                return Etat_Seance.ANNULEE;
+            default:
+                return Etat_Seance.INCONNU;
+        }
     }
 }

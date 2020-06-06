@@ -2,6 +2,7 @@ package Classes_Conteneurs.DAO;
 
 import controller.Connexion;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,5 +54,27 @@ public class Seances_Enseignants_Manager {
             e.printStackTrace();
         }
         return listeEnseignantsId;
+    }
+    public boolean creerLiaison(int idEnseigant,int idSeance)
+    {
+        String requete = "INSERT INTO seance_enseignants (ID_SEANCE, ID_ENSEIGNANT) VALUES (?,?)";
+        try{
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,idSeance);
+            preparedStatement.setInt(2,idEnseigant);
+            int sortie=preparedStatement.executeUpdate();
+            if(sortie!=1)
+            {
+                JOptionPane.showMessageDialog(null, "Erreur 2: valeur retour: "+sortie, "ERREUR", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "liaison insere2", "Info", JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

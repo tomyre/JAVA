@@ -18,12 +18,18 @@ public enum Droit {
         return this.indiceDroit;
     }
     public static Droit getDroit(int droit){
-        return switch (droit) {
-            case 1 -> Droit.ADMIN;
-            case 2 -> Droit.REFERENT_PEDAGOGIQUE;
-            case 3 -> Droit.ENSEIGNANT;
-            case 4 -> Droit.ETUDIANT;
-            default -> Droit.AUCUN;
-        };
+        switch (droit)
+        {
+            case 1:
+                return Droit.ADMIN;
+            case 2:
+                return Droit.REFERENT_PEDAGOGIQUE;
+            case 3:
+                return Droit.ENSEIGNANT;
+            case 4:
+                return Droit.ETUDIANT;
+            default:
+                return Droit.AUCUN;
+        }
     }
 }
