@@ -15,8 +15,10 @@ import javax.swing.*;
  * @author azglr
  */
 public class Etudiant extends JFrame {
-    
-    //initialisation 
+
+//    private final JTextArea fenetreEdt;
+
+    //initialisation
     CardLayout cl = new CardLayout();
     JPanel content = new JPanel();
     
@@ -28,12 +30,16 @@ public class Etudiant extends JFrame {
         
         //création de la fenetre
         super("Page etudiant");
-        
-        //le programme s'arrête dès que l'on ferme la fenêtre
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        this.setLocationRelativeTo(null);
-        
-        
+
+        // mise en page (layout) de la fenetre visible
+        setLayout(new BorderLayout());
+        setBounds(0, 0, 400, 400);
+        setResizable(true);
+        setVisible(true);
+
+        //création d'un JTextArea
+//        fenetreEdt = new JTextArea();
+
         //coloration d background des conteneurs
         JPanel card1 = new JPanel();
         card1.setBackground(Color.pink);
@@ -42,26 +48,25 @@ public class Etudiant extends JFrame {
         
         JPanel boutonPane = new JPanel();
         
-        //conteneur edt
-        
+        //ccréation des boutons
         JButton edt = new JButton("Emploi du temps");
+        JButton recap = new JButton("Récapitulatif des cours");
+
+        //ajout des listener
+
         //action du bouton edt
         edt.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                cl.next(content); //passsage au porchain conteneur
-            }
+                cl.next(content); //passage au porchain conteneur
+   }
         });
-        
-        //conteneur recap
-        
-        JButton recap = new JButton("Récapitulatif des cours");
+
         //action du bouton recap
         recap.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 if(++indice >1)
                     indice = 0;
-                
-                cl.show(content, listContent[indice]); //
+                cl.show(content, listContent[indice]);
             }
         });
         
@@ -76,6 +81,14 @@ public class Etudiant extends JFrame {
         this.getContentPane().add(boutonPane, BorderLayout.NORTH);
         this.getContentPane().add(content, BorderLayout.CENTER);
         setVisible(true);
+
+        // le prgm s'arrête lorsuqe l'on ferme la fenetre
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent evt) {
+                System.exit(0); // tout fermer
+            }
+        });
     }
     
 }

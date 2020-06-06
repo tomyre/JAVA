@@ -5,6 +5,9 @@
  */
 package graphique;
 
+import Classes_Conteneurs.DAO.DAOFactory;
+import Classes_Conteneurs.DAO.SalleDAO;
+import Classes_Conteneurs.Salle;
 import controller.Connexion;
 
 import java.awt.BorderLayout;
@@ -23,12 +26,12 @@ import javax.swing.*;
  */
 public class Admin extends JFrame implements ActionListener {
     
-    private final JLabel salle,matières, personnes, vide, rien, nada, v, r, n, modifier, supprimer, inserer;
+    private final JLabel salle,matières, personnes, vide, rien, nada, v, r, n, modifier, supprimer, inserer, no;
     private final JButton salles, selectCours, selectCategories, selectModif, selectSup, selectInsert;
     private final JPanel panel1, panel2, panel3, panel4, panel5, nord;
     private final JComboBox cours, pers;
     private final JTextArea fenetreLignes;
-    private final JTextField saisieInfos, saisieInfosModif, saisieInfosSup, saisieInfosInsert;
+    private final JTextField saisieInfos, sasieSemaine, saisieInfosModif, saisieInfosSup, saisieInfosInsert;
     private ResultSet rset;
     private ResultSetMetaData rsetMeta;
     private Statement stmt;
@@ -63,6 +66,7 @@ public class Admin extends JFrame implements ActionListener {
         
         //création des JTextField
         saisieInfos = new JTextField();
+        sasieSemaine = new JTextField();
         saisieInfosModif = new JTextField();
         saisieInfosSup = new JTextField();
         saisieInfosInsert = new JTextField();
@@ -76,6 +80,7 @@ public class Admin extends JFrame implements ActionListener {
         vide = new JLabel(" ", JLabel.CENTER);
         personnes = new JLabel("Catégories de recherches", JLabel.CENTER);
         rien = new JLabel(" ", JLabel.CENTER);
+        no = new JLabel(" ", JLabel.CENTER);
         nada = new JLabel(" ", JLabel.CENTER);
         modifier = new JLabel("Modification", JLabel.CENTER);
         v = new JLabel(" ", JLabel.CENTER);
@@ -109,6 +114,7 @@ public class Admin extends JFrame implements ActionListener {
         panel1.add(vide);
         panel1.add(personnes);
         panel1.add(rien);
+        panel1.add(no);
         panel1.add(nada);
         
         panel2.add(salles);
@@ -116,6 +122,7 @@ public class Admin extends JFrame implements ActionListener {
         panel2.add(selectCours);
         panel2.add(pers);
         panel2.add(saisieInfos);
+        panel2.add(sasieSemaine);
         panel2.add(selectCategories);
         
         panel3.add(modifier);
@@ -162,115 +169,15 @@ public class Admin extends JFrame implements ActionListener {
     }
     
     public void AfficherSalles() {
-         ArrayList<String> liste;
-        try {
-            
-            // effacer les résultats
-            fenetreLignes.removeAll();
-            
-            // recuperer la liste de la table sélectionnée
-            String requeteSelectionnee = "SELECT * FROM salle";
-            
-            liste = conn.RemplirChampsRequete(requeteSelectionnee);
-            
-            // afficher les lignes de la requete selectionnee a partir de la liste
-            fenetreLignes.setText("");
-            for (String liste1 : liste) {
-                fenetreLignes.append(liste1);
-            }
-            
-        } catch (SQLException e) {
-            System.out.println("problème!!!");
-        }
+
     }
      
     public void AfficherMatières(String cours) {
-         ArrayList<String> liste;
-        try {
-            
-            // effacer les résultats
-            fenetreLignes.removeAll();
-            
-            // recuperer la liste de la table sélectionnée
-            String requeteSelectionnee = "SELECT ID FROM cours WHERE NOM = '" + cours + "'";
-            
-            liste = conn.RemplirChampsRequeteCours(requeteSelectionnee);
-            
-            // afficher les lignes de la requete selectionnee a partir de la liste
-            fenetreLignes.setText("");
-            for (String liste1 : liste) {
-                fenetreLignes.append(liste1);
-            }
-            
-        } catch (SQLException e) {
-            System.out.println("problème!!!");
-        }
+
     }
      
-    public void AfficherInfos(String choixTable, String saisieInfo) {
-        ArrayList<String> liste;
-        try {
-            
-            // effacer les résultats
-            fenetreLignes.removeAll();
-            
-            if (null != choixTable) switch (choixTable) {
-                 
-                case "etudiant":
-                    String requeteSelectionnee1 = "SELECT ID FROM utilisateur WHERE NOM = '" + saisieInfo + "'";
-                    liste = conn.RemplirChampsRequeteInfos1(requeteSelectionnee1);
-                    
-                    // afficher les lignes de la requete selectionnee a partir de la liste
-                    fenetreLignes.setText("");
-                    
-                    for (String liste1 : liste) {
-                        fenetreLignes.append(liste1);
-                    }
-                    break;
-                
-                /*
-                case "enseignant":
-                    String requeteSelectionnee2 = "SELECT ID FROM utilisateur WHERE NOM = '" + saisieInfo + "'";
-                    liste = conn.RemplirChampsRequeteInfos2(requeteSelectionnee2);
-                    // afficher les lignes de la requete selectionnee a partir de la liste
-                    fenetreLignes.setText("");
-                    for (String liste1 : liste) {
-                        fenetreLignes.append(liste1);
-                    }
-                    break;
-                */
-                    
-                case "promotion":
-                    String requeteSelectionnee3 = "SELECT ID FROM promotion WHERE NOM = '" + saisieInfo + "'";
-                    liste = conn.RemplirChampsRequeteInfos3(requeteSelectionnee3);
-                    
-                    // afficher les lignes de la requete selectionnee a partir de la liste
-                    fenetreLignes.setText("");
-                    
-                    for (String liste1 : liste) {
-                        fenetreLignes.append(liste1);
-                    }
-                    break;
-                     
-                case "groupe":
-                    String requeteSelectionnee4 = "SELECT ID FROM groupe WHERE NOM = '" + saisieInfo + "'";
-                    liste = conn.RemplirChampsRequeteInfos4(requeteSelectionnee4);
-                    
-                    // afficher les lignes de la requete selectionnee a partir de la liste
-                    fenetreLignes.setText("");
-                    
-                    for (String liste1 : liste) {
-                        fenetreLignes.append(liste1);
-                    }
-                    break;
-                     
-                default:
-                     break;
-            }
-            
-        } catch (SQLException e) {
-            System.out.println("problème!!!");
-        }
+    public void AfficherInfos(String choixTable, String saisieInfo,String saisieSemaine) {
+
     }
      
     /**
@@ -292,7 +199,7 @@ public class Admin extends JFrame implements ActionListener {
             } else if (source == selectCategories) {
                 String persBox =  (String) pers.getSelectedItem();
                 String infos = saisieInfos.getText();
-                AfficherInfos(persBox, infos);
+//                AfficherInfos(persBox, infos);
                 
             } else if (source == selectModif) {
                 //String modif = saisieModif.getText();

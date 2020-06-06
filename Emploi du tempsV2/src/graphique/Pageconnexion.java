@@ -5,6 +5,9 @@
  */
 package graphique;
 
+import Classes_Conteneurs.DAO.DAOFactory;
+import Classes_Conteneurs.DAO.UtilisateurDAO;
+import Classes_Conteneurs.Utilisateur;
 import controller.Connexion;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -49,7 +52,7 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
 
         // creation des textes
         mail = new JTextField();
-        mdp = new JTextField();
+        mdp = new JPasswordField();
 
         // creation des labels
         email = new JLabel("email", JLabel.CENTER);
@@ -106,27 +109,35 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
                 emailSaisi = mail.getText();
                 mdpSaisi = mdp.getText();
                 try {
-                    Connexion nouvelleConnexion= new Connexion("bddjava","Adam","Adam");
-//                    nouvelleConnexion.OperationMofidication("utilisateur","PASSWD","3","Adam");
-                    System.out.println("Connecte");
-//                    nouvelleConnexion.OperationSuppression("site","3");
-//                    nouvelleConnexion.OperationInsertionCours("e-sport");
-                    int OptentionDroit=nouvelleConnexion.RecupererDonnees(emailSaisi,mdpSaisi);
-                    if(OptentionDroit!=-1)
+                    UtilisateurDAO utilisateurDAO=(UtilisateurDAO) DAOFactory.getUtilisateur();
+                    Utilisateur utilisateurMailCorrespondant=utilisateurDAO.chercher(emailSaisi);
+                    if(utilisateurMailCorrespondant==null)
                     {
-                        switch(OptentionDroit){
-                            
-                            case 1:
-                                //admin A = new Admin();
-                            case 2:
-                                PageRP ref = new PageRP();
-                            case 3:
-                                Professeur prof = new Professeur();
-                            case 4:
-                                Etudiant etu = new Etudiant();                                
-                        }
-                        //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
-                        
+                        return;
+                    }
+                    boolean utilisateurIdentifie=utilisateurMailCorrespondant.getMotDePasse()==mdpSaisi;
+                    if(utilisateurIdentifie)
+                    {
+                        int OptentionDroit=utilisateurMailCorrespondant.getDroit().getDroit();
+                        if(OptentionDroit!=-1)
+                        {
+                            switch(OptentionDroit){
+
+                                case 1:
+                                    //admin A = new Admin();
+                                case 2:
+                                    PageRP ref = new PageRP();
+                                case 3:
+                                    Professeur prof = new Professeur();
+                                case 4:
+                                    Etudiant etu = new Etudiant();
+                            }
+                            //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
+                    }
+                    else
+                    {
+                        // pas bon mdp
+                    }
                     }
                     
                 } catch (SQLException throwables) {

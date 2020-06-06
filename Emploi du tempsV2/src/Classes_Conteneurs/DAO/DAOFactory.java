@@ -5,7 +5,7 @@ import controller.Connexion;
 import java.sql.Connection;
 
 public class DAOFactory {
-    protected static Connection conn = null;
+    public static Connection conn = null;
 
     static {
         try {
