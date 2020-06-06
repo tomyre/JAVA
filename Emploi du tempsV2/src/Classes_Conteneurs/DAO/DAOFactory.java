@@ -3,7 +3,6 @@ package Classes_Conteneurs.DAO;
 import controller.Connexion;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class DAOFactory {
     protected static Connection conn = null;
@@ -46,7 +45,9 @@ public class DAOFactory {
     public static DAO getUtilisateur(){
         return new UtilisateurDAO(conn);
     }
-    public static Seance_GroupeDAO getSeanceGroupe(){
-        return new Seance_GroupeDAO(conn);
+    public static Seances_Groupes_Manager getSeanceGroupeManager(){
+        return new Seances_Groupes_Manager();
     }
+    public static Seances_Enseignants_Manager getSeanceEnseignantManager(){return new Seances_Enseignants_Manager();}
+    public static Seances_Salles_Manager getSeanceSalleManager(){return new Seances_Salles_Manager();}
 }

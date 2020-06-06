@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        //TODO METTRE Cet algo dans une classe du package recherche
         // Trouver etudiant Numero-> Etudiant -> ID GROUPE(1)-> SEANCE(0->*)
         // Checher l'etudiant a partir de son numero
         EtudiantDAO etudiantDAO = (EtudiantDAO) DAOFactory.getEtudiantDAO();
@@ -20,8 +21,8 @@ public class Main {
         GroupeDAO groupeDAO = (GroupeDAO) DAOFactory.getGroupeDAO();
         Groupe groupeEtudiant= groupeDAO.chercher(etudiant.getIdGroupe());
 
-        Seance_GroupeDAO seance_groupeDAO= DAOFactory.getSeanceGroupe();
-        ArrayList<Integer> listeIdSeances=seance_groupeDAO.chercherSeances(groupeEtudiant.getId());
+        Seances_Groupes_Manager seance_groupesManager = DAOFactory.getSeanceGroupeManager();
+        ArrayList<Integer> listeIdSeances= seance_groupesManager.chercherSeances(groupeEtudiant.getId());
 
         SeanceDAO seanceDAO=(SeanceDAO) DAOFactory.getSeanceDAO();
         int taille=listeIdSeances.size();
