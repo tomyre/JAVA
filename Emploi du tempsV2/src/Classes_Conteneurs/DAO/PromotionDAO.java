@@ -134,4 +134,20 @@ public class PromotionDAO extends DAO<Promotion> {
         }
         return listePromotion;
     }
+    public ArrayList<Promotion> chercherToutesLesPromotions() {
+        ArrayList<Promotion> listePromotion= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM promotion";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Promotion promotion= new Promotion(resultat.getInt("ID"),resultat.getString("NOM"));
+                listePromotion.add(promotion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listePromotion;
+    }
 }

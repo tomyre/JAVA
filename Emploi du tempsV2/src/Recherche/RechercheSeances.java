@@ -83,17 +83,21 @@ public class RechercheSeances {
         ArrayList<Groupe> listeGroupePromotion=groupeDAO.chercher("ID_PROMOTION",idPromotion);
 
         // on ajoute tout les id de seances dans une liste englobante (doublons inclus)
+
         for (Groupe listeGroupe : listeGroupePromotion) {
             ArrayList<Integer> listesIdSeancesGroupe = seances_groupes_manager.chercherSeances(listeGroupe.getId());
             listeSeancesId.addAll(listesIdSeancesGroupe);
         }
-        
+
         //on ajoute chaque seance corrpondante dans la liste de seance tout en suppriman les prochaines occuratione la meme seance
         for(Integer idSeance: listeSeancesId)
         {
+//            System.out.println(listeSeancesId.size());
             final int idCourant=idSeance;
             Seance seanceCourante= seanceDAO.chercher(idSeance);
-            listeSeancesId.removeIf(id-> id.equals(idCourant));
+
+//            listeSeancesId.removeIf(id-> id.equals(idCourant));
+//            System.out.println(seanceCourante.getHeureFin());
             listeSeances.add(seanceCourante);
         }
         return listeSeances;
@@ -156,6 +160,25 @@ public class RechercheSeances {
             }
         }
         return  listesSeances;
+    }
+    public static ArrayList<Seance> rechercheSeancesCours(String nomCours,int semaine)
+    {
+        CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
+        Cours coursDesire= coursDAO.chercher("NOM",nomCours).get(0);
+        SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
+        ArrayList<Seance> seancesCours=seanceDAO.chercher("ID_COURS",coursDesire.getIdCours());
+        if(seancesCours.isEmpty())
+        {
+            return null;
+        }
+        ArrayList<Seance> listesSeancesCorrespondantes= new ArrayList<>();
+        for (Seance seance : seancesCours) {
+            boolean seanceAppartientASemaine = seance.getSemaine() == semaine;
+            if (seanceAppartientASemaine) {
+                listesSeancesCorrespondantes.add(seance);
+            }
+        }
+        return listesSeancesCorrespondantes;
     }
 
 }

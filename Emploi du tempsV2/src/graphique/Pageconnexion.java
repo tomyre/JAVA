@@ -9,6 +9,7 @@ import Classes_Conteneurs.DAO.DAOFactory;
 import Classes_Conteneurs.DAO.UtilisateurDAO;
 import Classes_Conteneurs.Utilisateur;
 import controller.Connexion;
+
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -21,22 +22,22 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
- *
  * @author azglr
  */
 
-public class Pageconnexion extends JFrame implements ActionListener,ItemListener {
-    
-    private final JLabel email,password,vide;
-    private final JTextField mail,mdp;
+public class Pageconnexion extends JFrame implements ActionListener, ItemListener {
+
+    private final JLabel email, password, vide;
+    private final JTextField mail, mdp;
     private final JButton connexion;
     private final JPanel panel1, panel2, nord;
     String emailSaisi;
     private String mdpSaisi;
     private int ID;
 
-  public Pageconnexion() {
+    public Pageconnexion() {
 
         // creation par heritage de la fenetre
         super("EDT ECE");
@@ -56,17 +57,17 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
 
         // creation des labels
         email = new JLabel("email", JLabel.CENTER);
-        password =new JLabel("mdp",JLabel.CENTER);
-        vide =new JLabel(" ",JLabel.CENTER);
+        password = new JLabel("mdp", JLabel.CENTER);
+        vide = new JLabel(" ", JLabel.CENTER);
 
 
         // creation des panneaux
         panel1 = new JPanel();
         panel1.setLayout(new GridLayout(1, 3));
-        
+
         panel2 = new JPanel();
         panel2.setLayout(new GridLayout(1, 3));
-        
+
         nord = new JPanel();
         nord.setLayout(new GridLayout(2, 1));
 
@@ -98,61 +99,49 @@ public class Pageconnexion extends JFrame implements ActionListener,ItemListener
                 System.exit(0); // tout fermer												System.exit(0); // tout fermer
             }
         });
-  }
+    }
 
     /**
-     *
      * @param action
      */
     @Override
-        public void actionPerformed(ActionEvent action) {
-                emailSaisi = mail.getText();
-                mdpSaisi = mdp.getText();
-                try {
-                    UtilisateurDAO utilisateurDAO=(UtilisateurDAO) DAOFactory.getUtilisateur();
-                    Utilisateur utilisateurMailCorrespondant=utilisateurDAO.chercher(emailSaisi);
-                    if(utilisateurMailCorrespondant==null)
-                    {
-                        return;
-                    }
-                    boolean utilisateurIdentifie=utilisateurMailCorrespondant.getMotDePasse()==mdpSaisi;
-                    if(utilisateurIdentifie)
-                    {
-                        int OptentionDroit=utilisateurMailCorrespondant.getDroit().getDroit();
-                        if(OptentionDroit!=-1)
-                        {
-                            switch(OptentionDroit){
+    public void actionPerformed(ActionEvent action) {
+        emailSaisi = mail.getText();
+        mdpSaisi = mdp.getText();
+        UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
+        Utilisateur utilisateurMailCorrespondant = utilisateurDAO.chercher(emailSaisi);
+        if (utilisateurMailCorrespondant == null) {
+            return;
+        }
+        boolean utilisateurIdentifie = utilisateurMailCorrespondant.getMotDePasse() == mdpSaisi;
+        if (utilisateurIdentifie) {
+            int OptentionDroit = utilisateurMailCorrespondant.getDroit().getDroit();
+            if (OptentionDroit != -1) {
+                switch (OptentionDroit) {
 
-                                case 1:
-                                    //admin A = new Admin();
-                                case 2:
-                                    PageRP ref = new PageRP();
-                                case 3:
-                                    Professeur prof = new Professeur();
-                                case 4:
-                                    Etudiant etu = new Etudiant();
-                            }
-                            //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
-                    }
-                    else
-                    {
-                        // pas bon mdp
-                    }
-                    }
-                    
-                } catch (SQLException throwables) {
-                } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pageconnexion.class.getName()).log(Level.SEVERE, null, ex);
+                    case 1:
+                        //admin A = new Admin();
+                    case 2:
+                        PageRP ref = new PageRP();
+                    case 3:
+                        Professeur prof = new Professeur();
+                    case 4:
+                        Etudiant etu = new Etudiant();
+                }
+                //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
+            } else {
+                // pas bon mdp
+            }
         }
 
 
-            }
+    }
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-        }
+}
 
     
        

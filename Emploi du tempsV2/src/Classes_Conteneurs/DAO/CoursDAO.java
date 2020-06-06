@@ -135,5 +135,21 @@ public class CoursDAO extends DAO<Cours>{
         }
         return listeCours;
     }
+    public ArrayList<Cours> chercherToutLesCours(){
+        ArrayList<Cours> listeCours= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM cours";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Cours cours= new Cours(resultat.getInt("ID"),resultat.getString("NOM"));
+                listeCours.add(cours);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeCours;
+    }
 }
 

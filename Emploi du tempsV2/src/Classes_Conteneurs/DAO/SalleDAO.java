@@ -149,7 +149,7 @@ public class SalleDAO extends DAO<Salle>{
             ResultSet resultat=preparedStatement.executeQuery();
             while (resultat.next())
             {
-                Salle salle= new Salle(resultat.getInt("ID"),resultat.getInt("CAPACITE"),resultat.getString("CAPACITE"),resultat.getInt("ID_SITE"));
+                Salle salle= new Salle(resultat.getInt("ID"),resultat.getInt("CAPACITE"),resultat.getString("NOM"),resultat.getInt("ID_SITE"));
                 listeSalle.add(salle);
             }
         } catch (SQLException e) {

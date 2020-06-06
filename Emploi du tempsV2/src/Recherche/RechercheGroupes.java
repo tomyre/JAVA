@@ -2,14 +2,11 @@ package Recherche;
 
 import Classes_Conteneurs.DAO.DAOFactory;
 import Classes_Conteneurs.DAO.GroupeDAO;
-import Classes_Conteneurs.Droit;
-import Classes_Conteneurs.Utilisateur;
-import controller.Connexion;
-
-import java.sql.Connection;
+import Classes_Conteneurs.Groupe;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RechercheGroupes {
     public static int tailleGroupe(int idGroupe){
@@ -29,5 +26,9 @@ public class RechercheGroupes {
             e.printStackTrace();
         }
         return tailleGroupe;
+    }
+    public static ArrayList<Groupe> rechercherGroupes(int idPromotion){
+        GroupeDAO groupeDAO= (GroupeDAO) DAOFactory.getGroupeDAO();
+      return groupeDAO.chercher("ID_PROMOTION",idPromotion);
     }
 }

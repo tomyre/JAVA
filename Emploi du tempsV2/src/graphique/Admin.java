@@ -61,7 +61,7 @@ public class Admin extends JFrame implements ActionListener {
         selectInsert = new JButton("Inserer");
         
         //création des JComboBox
-        cours = new JComboBox(conn.AfficherCours());
+        cours = new JComboBox();
         pers = new JComboBox(tab);
         
         //création des JTextField
