@@ -261,7 +261,6 @@ public class PageRP extends JFrame implements ActionListener {
             String selection = (String) pers.getSelectedItem();
             if (selection.equals("promotion")) {
                 saisieInfos.setVisible(false);
-                saisieSemaine.setVisible(false);
                 selectCategories.setVisible(false);
                 nom.setVisible(false);
                 num.setVisible(false);
@@ -275,7 +274,6 @@ public class PageRP extends JFrame implements ActionListener {
                 this.remplirChoixGroupes();
             } else {
                 saisieInfos.setVisible(true);
-                saisieSemaine.setVisible(true);
                 selectCategories.setVisible(true);
                 nom.setVisible(true);
                 num.setVisible(true);
@@ -290,6 +288,7 @@ public class PageRP extends JFrame implements ActionListener {
         } else if (source == promo) {
             this.remplirChoixGroupes();
         } else if (source == selectCategories2) {
+            String semaine=saisieSemaine.getText();
             ArrayList<Seance> seancesPromo = new ArrayList<>();
             if (tout.isSelected()) {
                 // on cherche les seances de la promo entiere
