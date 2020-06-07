@@ -14,27 +14,8 @@ import java.sql.SQLException;
  * @author azglr
  */
 public class main {
-
-    /*
     public static void main(String[] s) {
         // creation de la fenetre
         Pageconnexion f = new Pageconnexion();
     }
-    */
-    
-
-    public static void main(String[] s) throws SQLException, ClassNotFoundException {
-        // creation de la fenetre
-        Admin f = new Admin();
-
-    }
-
-
-    /*
-    public static void main(String[] s) throws SQLException, ClassNotFoundException {
-        // creation de la fenetre
-        Admin f = new Admin();
-    }
-    */
-
 }

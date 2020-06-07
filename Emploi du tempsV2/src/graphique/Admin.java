@@ -55,7 +55,7 @@ public class Admin extends JFrame implements ActionListener {
         return nomDesCours;
     }
 
-    public Admin() throws SQLException, ClassNotFoundException {
+    public Admin() {
 
         //création par héritage de la fenêtre
         super("Page Admin");

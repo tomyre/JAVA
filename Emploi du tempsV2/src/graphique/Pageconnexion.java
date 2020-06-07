@@ -113,7 +113,7 @@ public class Pageconnexion extends JFrame implements ActionListener, ItemListene
                     if (OptentionDroit >0) {
                         switch (OptentionDroit) {
                             case 1:
-                                //admin A = new Admin();
+                                Admin A = new Admin();
                                 break;
                             case 2:
                                 PageRP ref = new PageRP();

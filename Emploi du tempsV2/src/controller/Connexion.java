@@ -57,7 +57,7 @@ public class Connexion {
             String urlDatabase = "jdbc:mysql://localhost/bddjava";
             //création d'une connexion JDBC à la base
             try {
-                return DriverManager.getConnection(urlDatabase, "Adam", "Adam");
+                return DriverManager.getConnection(urlDatabase, "root", "");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 return null;

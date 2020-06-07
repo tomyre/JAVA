@@ -236,14 +236,13 @@ public class PageRP extends JFrame implements ActionListener {
             String persBox = (String) pers.getSelectedItem();
             String infos = saisieInfos.getText();
             String semaine=saisieSemaine.getText();
-            String semaine2=saisieSemaine2.getText();
             if(persBox.equals("etudiant"))
             {
                 UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
                 Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
                 EtudiantDAO etudiantDAO= (EtudiantDAO) DAOFactory.getEtudiantDAO();
                 Etudiant etudiantCorrespondant=etudiantDAO.chercher("ID_UTILISATEUR",utilisateur.getId()).get(0);
-                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(),Integer.parseInt(semaine2));
+                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(),Integer.parseInt(semaine));
                 assert seancesCorrespondantes != null;
                 this.afficherSeances(seancesCorrespondantes);
 
@@ -251,7 +250,7 @@ public class PageRP extends JFrame implements ActionListener {
             else if(persBox=="enseignant"){
                 UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
                 Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
-                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(),Integer.parseInt(semaine2));
+                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(),Integer.parseInt(semaine));
                 assert seancesCorrespondantes != null;
                 this.afficherSeances(seancesCorrespondantes);
             }
@@ -259,6 +258,7 @@ public class PageRP extends JFrame implements ActionListener {
 
         } else if (source == pers) {
             String selection = (String) pers.getSelectedItem();
+            String semaine2=saisieSemaine2.getText();
             if (selection.equals("promotion")) {
                 saisieInfos.setVisible(false);
                 selectCategories.setVisible(false);
