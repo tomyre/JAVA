@@ -5,76 +5,137 @@
  */
 package graphique;
 
+import Classes_Conteneurs.DAO.DAOFactory;
+import Classes_Conteneurs.DAO.Type_CoursDAO;
+import Classes_Conteneurs.Seance;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
  *
  * @author azglr
  */
-public class Professeur extends JFrame {
-    
-    //initialisation 
-    CardLayout cl = new CardLayout();
-    JPanel content = new JPanel();
-    
-    //liste des conteneurs
-    String[] listContent = {"edt", "recap"};
-    int indice = 0;
+public class Professeur extends JFrame implements ActionListener {
+
+    private final JPanel panelBouton, content1, content2, contentall ;
+    private final JTextArea zoneText1, zoneText2;
+    private final JButton edt, recap;
     
     public Professeur() {
         
         //création de la fenetre
         super("Page prof");
-        //le programme s'arrête dès que l'on ferme la fenêtre
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        this.setLocationRelativeTo(null);
-        
-        
-        //coloration d background des conteneurs
-        JPanel card1 = new JPanel();
-        card1.setBackground(Color.pink);
-        JPanel card2 = new JPanel();
-        card2.setBackground(Color.lightGray);
-        
-        JPanel boutonPane = new JPanel();
-        
-        //conteneur edt
-        
-        JButton edt = new JButton("Emploi du temps");
-        //action du bouton edt
-        edt.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                cl.next(content); //passsage au porchain conteneur
-            }
-        });
-        
-        //conteneur recap
-        
-        JButton recap = new JButton("Récapitulatif des cours");
-        //action du bouton recap
-        recap.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                if(++indice >1)
-                    indice = 0;
-                
-                cl.show(content, listContent[indice]); //
-            }
-        });
-        
-        boutonPane.add(edt);
-        boutonPane.add(recap);
-        
-        content.setLayout(cl); //définition du layout
-        
-        content.add(card1, listContent[0]);
-        content.add(card2, listContent[1]);
-    
-        this.getContentPane().add(boutonPane, BorderLayout.NORTH);
-        this.getContentPane().add(content, BorderLayout.CENTER);
+
+        // mise en page (layout) de la fenetre visible
+        setLayout(new BorderLayout());
+        setBounds(0, 0, 400, 400);
+        setResizable(true);
         setVisible(true);
+
+        //création d'un JTextArea
+        zoneText1 = new JTextArea("zone 1");
+        zoneText2 = new JTextArea("zone 2");
         
+        //coloration des background des conteneurs
+        panelBouton = new JPanel();
+        panelBouton.setLayout(new GridLayout(1,2, 10, 0));
+        content1 = new JPanel();
+        content2 = new JPanel();
+        contentall = new JPanel();
+        contentall.setLayout(new GridLayout(2, 1));
+
+        //ccréation des boutons
+        edt = new JButton("Emploi du temps");
+        recap = new JButton("Récapitulatif des cours");
+
+        //ajout des elts aux panels
+        panelBouton.add(edt);
+        panelBouton.add(recap);
+        content1.add(zoneText1);
+        content1.setVisible(false);
+        content2.add(zoneText2);
+        content2.setVisible(false);
+        contentall.add("Center",content1);
+        contentall.add("Center",content2);
+
+        //disposition géographique des panneaux
+        add("North", panelBouton);
+        add("Center",contentall);
+
+
+        //ajout des listeners
+        edt.addActionListener(this);
+        recap.addActionListener(this);
+
+        // le prgm s'arrête lorsuqe l'on ferme la fenetre
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent evt) {
+                System.exit(0); // tout fermer
+            }
+        });
     }
+
+    public void afficherSeances(ArrayList<Seance> seances) {
+        zoneText1.setText(null);
+        Type_CoursDAO typeCoursDAO = (Type_CoursDAO) DAOFactory.getTypeCours();
+        for (Seance seance : seances) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("DATE: ");
+            stringBuilder.append(seance.getDate().toString());
+            stringBuilder.append("  DEBUT: ");
+            stringBuilder.append(seance.getHeureDebut().toString());
+            stringBuilder.append("  FIN: ");
+            stringBuilder.append(seance.getHeureFin().toString());
+            stringBuilder.append("  ETAT: ");
+            stringBuilder.append(seance.getEtat().getNom());
+            stringBuilder.append("  Type: ");
+            stringBuilder.append(typeCoursDAO.chercher(seance.getTypeCours()).getNom());
+            String ligneSeance = stringBuilder.toString();
+            String salleLigne = ligneSeance + "\n\n";
+            zoneText1.append(salleLigne);
+        }
+    }
+
+    /**
+     * @param action
+     */
+        public void actionPerformed(ActionEvent action) {
+        Object source = action.getSource();
+
+        if (source == recap) {
+            System.out.println("bouton recap ok");
+            content1.setVisible(false);
+            content2.setVisible(true);
+
+        } else if (source == edt) {
+            System.out.println("bouton edt ok");
+            content2.setVisible(false);
+            content1.setVisible(true);
+        }
+    }
+
+    /*
+    //action du bouton edt
+        edt.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent event){
+            cl.next(content); //passsage au porchain conteneur
+        }
+    });
+
+    //action du bouton recap
+        recap.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent event){
+            if(++indice >1)
+                indice = 0;
+
+            cl.show(content, listContent[indice]); //
+        }
+    });
+    */
 }
