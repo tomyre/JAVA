@@ -8,6 +8,7 @@ package graphique;
 import Classes_Conteneurs.*;
 import Classes_Conteneurs.DAO.*;
 import Classes_Conteneurs.Etudiant;
+import MAJDonnes.MAJCours;
 import Recherche.RechercheGroupes;
 import Recherche.RechercheSeances;
 
@@ -22,25 +23,24 @@ import java.sql.Statement;
 import javax.swing.*;
 
 /**
- *
  * @author azglr
  */
 public class Admin extends JFrame implements ActionListener {
-    
-    private final JLabel salle, matières, personnes, vide, nom, num, nada, v, r, n, w, o;
-    private final JButton salles, selectCours, selectCategories, selectCategories2, Continuer, Ajouter, Supprimer, Affecter, Modifier, Afficher;
-    private final JPanel panel1, panel2, panel3, panel4, panel5, panel6,panel7,panel8, nord ;
+
+    private final JLabel salle, matières, personnes, vide, nom, num, nada, v, r, n, w, o, a, b, c, d, f, g, h, i, j, k, l;
+    private final JButton Afficher2, MAJ, salles, selectCours, selectCategories, selectCategories2, Continuer, Ajouter, Supprimer, Affecter, Modifier, Afficher;
+    private final JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, nord;
     private final JComboBox cours, pers, td, promo, choixmodif, Lieu, Type, Semaine, Table;
     private final JCheckBox tout;
     private final JTextArea zoneTexte;
-    private final JTextField ID,ID2, ID3,ID4,ID5, ID6, saisieInfos, saisieSemaine, saisieSemaine2, saisieInfosModif, saisieInfosSup, saisieInfosInsert, NOM,NOM2, Capacite, Numero,Date,IDchoix,HeureDebut,HeureFin;
-    private DefaultComboBoxModel defaultComboBoxModel,comboBoxGroupes;
+    private final JTextField nouveauNom, ID4, ID5, ID6, saisieInfos, saisieSemaine, saisieSemaine2, saisieInfosModif, saisieInfosSup, saisieInfosInsert, NOM, NOM2, Capacite, Numero, Date, IDchoix, HeureDebut, HeureFin;
+    private DefaultComboBoxModel defaultComboBoxModel, comboBoxGroupes;
 
-    Object tab[] = new Object[] {"etudiant", "enseignant", "promotion"};
-    Object tab2[] = new Object[] {"Modifier", "Ajouter", "Affecter", "Supprimer"};
-    Object tab3[] = new Object[] {"1","2","3","4","5"};
-    Object tab4[] = new Object[] {"TD", "TP", "EXAMEN", "COURS", "PROJET"};
-    Object tab5[] = new Object[] {"cours","site","seance","groupe"};
+    Object tab[] = new Object[]{"etudiant", "enseignant", "promotion"};
+    Object tab2[] = new Object[]{"Modifier", "Ajouter", "Affecter", "Supprimer"};
+    Object tab3[] = new Object[]{"1", "2", "3", "4", "5"};
+    Object tab4[] = new Object[]{"TD", "TP", "EXAMEN", "COURS", "PROJET"};
+    Object tab5[] = new Object[]{"cours", "site", "enseignant", "groupe"};
 
     public String[] getMatieres() {
         CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
@@ -54,16 +54,16 @@ public class Admin extends JFrame implements ActionListener {
         return nomDesCours;
     }
 
-    public Admin() throws SQLException, ClassNotFoundException{
-        
-	//création par héritage de la fenêtre
+    public Admin() throws SQLException, ClassNotFoundException {
+
+        //création par héritage de la fenêtre
         super("Page Admin");
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
         setBounds(0, 0, 400, 400);
         setResizable(true);
         setVisible(true);
-        
+
         //création bouton salles
         salles = new JButton("Les salles");
         selectCours = new JButton("Rechercher");
@@ -74,11 +74,13 @@ public class Admin extends JFrame implements ActionListener {
         Supprimer = new JButton("Suppression");
         Modifier = new JButton("Modification");
         Affecter = new JButton("Affecter");
-        Afficher = new JButton("Afficher ");
+        Afficher = new JButton("Afficher");
+        MAJ = new JButton("MAJ");
+        Afficher2 = new JButton("Afficher");
 
 
         //creation des CheckBox
-        tout= new JCheckBox("TOUS");
+        tout = new JCheckBox("TOUS");
 
         //création des JComboBox
         cours = new JComboBox(this.getMatieres());
@@ -103,26 +105,24 @@ public class Admin extends JFrame implements ActionListener {
         NOM2 = new JTextField();
         Numero = new JTextField();
         Capacite = new JTextField();
-        Date= new JTextField();
+        Date = new JTextField();
         IDchoix = new JTextField();
         HeureDebut = new JTextField();
         HeureFin = new JTextField();
-        ID = new JTextField();
-        ID2 = new JTextField();
-        ID3 = new JTextField();
+        nouveauNom = new JTextField();
         ID4 = new JTextField();
         ID5 = new JTextField();
         ID6 = new JTextField();
 
-   
+
         //création des textes
         zoneTexte = new JTextArea();
-        
+
         //création des labels
-        salle = new JLabel(" ",JLabel.CENTER);
-        matières = new JLabel("Les cours", JLabel.CENTER);
+        salle = new JLabel(" ", JLabel.CENTER);
+        matières = new JLabel("Les cours ", JLabel.CENTER);
         vide = new JLabel(" ", JLabel.CENTER);
-        personnes = new JLabel("Catégories de recherches", JLabel.CENTER);
+        personnes = new JLabel("Catégories ", JLabel.CENTER);
         nom = new JLabel("Nom : ", JLabel.CENTER);
         num = new JLabel("N° Semaine : ", JLabel.CENTER);
         nada = new JLabel(" ", JLabel.CENTER);
@@ -131,37 +131,60 @@ public class Admin extends JFrame implements ActionListener {
         r = new JLabel("N° Semaine : ", JLabel.CENTER);
         w = new JLabel(" ", JLabel.CENTER);
         o = new JLabel(" ", JLabel.CENTER);
+        a = new JLabel("Nom courant : ", JLabel.CENTER);
+        b = new JLabel("Nouveau nom : ", JLabel.CENTER);
+        i = new JLabel(" ", JLabel.CENTER);
+        l = new JLabel(" ", JLabel.CENTER);
+        c = new JLabel("Nom : ", JLabel.CENTER);
+        d = new JLabel("ID : ", JLabel.CENTER);
+        j = new JLabel(" ", JLabel.CENTER);
+        f = new JLabel("adam", JLabel.CENTER);
+        g = new JLabel("adam", JLabel.CENTER);
+        h = new JLabel("adam", JLabel.CENTER);
+        k = new JLabel(" ", JLabel.CENTER);
 
         //création des panneaux
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayout(1,12));
-        
+        panel1.setLayout(new GridLayout(1, 12));
+
         panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(1,12, 10, 0));
+        panel2.setLayout(new GridLayout(1, 12, 10, 0));
         panel2.setVisible(true);
 
         panel3 = new JPanel();
-        panel3.setLayout(new GridLayout(1,3));
+        panel3.setLayout(new GridLayout(1, 3));
 
         panel4 = new JPanel();
-        panel4.setLayout(new GridLayout(1,3));
+        panel4.setLayout(new GridLayout(1, 4));
 
-        panel5 =new JPanel();
-        panel5.setLayout(new GridLayout(1,4));
+        panel5 = new JPanel();
+        panel5.setLayout(new GridLayout(1, 4));
 
-        panel6 =new JPanel();
-        panel6.setLayout(new GridLayout(1,5));
+        panel6 = new JPanel();
+        panel6.setLayout(new GridLayout(1, 5));
 
-        panel7 =new JPanel();
-        panel7.setLayout(new GridLayout(1,5));
+        panel7 = new JPanel();
+        panel7.setLayout(new GridLayout(1, 5));
 
-        panel8 =new JPanel();
-        panel8.setLayout(new GridLayout(1,1));
+        panel8 = new JPanel();
+        panel8.setLayout(new GridLayout(1, 1));
+
+        panel9 = new JPanel();
+        panel9.setLayout(new GridLayout(1, 4));
+
+        panel10 = new JPanel();
+        panel10.setLayout(new GridLayout(1, 3));
+
+        panel11 = new JPanel();
+        panel11.setLayout(new GridLayout(1, 3));
+
+        panel12 = new JPanel();
+        panel12.setLayout(new GridLayout(1, 3));
 
 
         nord = new JPanel();
-        nord.setLayout(new GridLayout(7,1));
-        
+        nord.setLayout(new GridLayout(11, 1));
+
         //ajout des objets dans les panneaux 
         panel1.add(salle);
         panel1.add(matières);
@@ -201,14 +224,14 @@ public class Admin extends JFrame implements ActionListener {
         panel3.add(Continuer);
 
         panel4.add(NOM);
-        panel4.add(ID);
+        panel4.add(nouveauNom);
         panel4.add(Afficher);
+        panel4.add(MAJ);
         panel4.setVisible(false);
 
         panel5.add(NOM2);
-        panel5.add(ID2);
-        panel5.add(ID3);
         panel5.add(Modifier);
+        panel5.add(Afficher2);
         panel5.setVisible(false);
 
         panel6.add(ID4);
@@ -222,14 +245,35 @@ public class Admin extends JFrame implements ActionListener {
 
         panel8.add(zoneTexte);
 
+        panel9.add(a);
+        panel9.add(b);
+        panel9.add(i);
+        panel9.add(l);
+        panel9.setVisible(false);
+
+        panel10.add(c);
+        panel10.add(j);
+        panel10.setVisible(false);
+
+        panel11.add(f);
+        panel11.add(g);
+        panel11.add(h);
+        panel11.add(k);
+        panel11.setVisible(false);
+
+        //panel12.add();
+
         nord.add("North", panel1);
         nord.add("North", panel2);
         nord.add("North", panel3);
+        nord.add("North", panel9);
         nord.add("North", panel4);
+        nord.add("North", panel10);
         nord.add("North", panel5);
+        nord.add("North", panel11);
         nord.add("North", panel6);
+        nord.add("North", panel12);
         nord.add("North", panel7);
-
 
 
         //ajout des listener
@@ -247,22 +291,23 @@ public class Admin extends JFrame implements ActionListener {
         Afficher.addActionListener(this);
         Continuer.addActionListener(this);
         Modifier.addActionListener(this);
+        MAJ.addActionListener(this);
 
         //disposition géographique des panneaux
         add("North", nord);
-        add("Center",panel8);
+        add("Center", panel8);
 
-           
+
         // le prgm s'arrête lorsuqe l'on ferme la fenetre
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent evt) {
                 System.exit(0); // tout fermer
             }
-            
-    });
+
+        });
     }
-    
+
     public void AfficherSalles() {
         zoneTexte.setText(null);
         SalleDAO salleDAO = (SalleDAO) DAOFactory.getSalleDAO();
@@ -280,7 +325,7 @@ public class Admin extends JFrame implements ActionListener {
             zoneTexte.append(salleLigne);
         }
     }
-     
+
     public void AfficherMatières(String coursBox) {
         zoneTexte.setText(null);
         ArrayList<Seance> seances = RechercheSeances.rechercheSeancesCours(coursBox, 1);
@@ -305,11 +350,10 @@ public class Admin extends JFrame implements ActionListener {
     }
 
     /**
-     *
      * @param action
      */
     @Override
-        public void actionPerformed(ActionEvent action) {
+    public void actionPerformed(ActionEvent action) {
         Object source = action.getSource();
 
         if (source == salles) {
@@ -321,27 +365,25 @@ public class Admin extends JFrame implements ActionListener {
             AfficherMatières(coursBox);
 
         } else if (source == selectCategories) {
-                String persBox = (String) pers.getSelectedItem();
-                String infos = saisieInfos.getText();
-                String semaine=saisieSemaine.getText();
-                if(persBox.equals("etudiant"))
-                {
-                    UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
-                    Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
-                    EtudiantDAO etudiantDAO= (EtudiantDAO) DAOFactory.getEtudiantDAO();
-                    Etudiant etudiantCorrespondant=etudiantDAO.chercher("ID_UTILISATEUR",utilisateur.getId()).get(0);
-                    ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(),Integer.parseInt(semaine));
-                    assert seancesCorrespondantes != null;
-                    this.afficherSeances(seancesCorrespondantes);
+            String persBox = (String) pers.getSelectedItem();
+            String infos = saisieInfos.getText();
+            String semaine = saisieSemaine.getText();
+            if (persBox.equals("etudiant")) {
+                UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
+                Utilisateur utilisateur = utilisateurDAO.chercher("NOM", infos).get(0);
+                EtudiantDAO etudiantDAO = (EtudiantDAO) DAOFactory.getEtudiantDAO();
+                Etudiant etudiantCorrespondant = etudiantDAO.chercher("ID_UTILISATEUR", utilisateur.getId()).get(0);
+                ArrayList<Seance> seancesCorrespondantes = RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(), Integer.parseInt(semaine));
+                assert seancesCorrespondantes != null;
+                this.afficherSeances(seancesCorrespondantes);
 
-                }
-                else if(persBox=="enseignant"){
-                    UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
-                    Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
-                    ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(),Integer.parseInt(semaine));
-                    assert seancesCorrespondantes != null;
-                    this.afficherSeances(seancesCorrespondantes);
-                }
+            } else if (persBox == "enseignant") {
+                UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
+                Utilisateur utilisateur = utilisateurDAO.chercher("NOM", infos).get(0);
+                ArrayList<Seance> seancesCorrespondantes = RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(), Integer.parseInt(semaine));
+                assert seancesCorrespondantes != null;
+                this.afficherSeances(seancesCorrespondantes);
+            }
 
         } else if (source == pers) {
             String selection = (String) pers.getSelectedItem();
@@ -393,105 +435,136 @@ public class Admin extends JFrame implements ActionListener {
             String choixTables = (String) Table.getSelectedItem();
 
             if ((selection.equals("Modifier")) && (choixTables.equals("cours"))) {
+                panel9.setVisible(true);
                 panel4.setVisible(true);
+                panel10.setVisible(false);
                 panel5.setVisible(false);
+                panel11.setVisible(false);
                 panel6.setVisible(false);
+                panel12.setVisible(false);
                 panel7.setVisible(false);
 
             } else if ((selection.equals("Ajouter")) && (choixTables.equals("site"))) {
+                panel9.setVisible(false);
                 panel4.setVisible(false);
+                panel10.setVisible(true);
                 panel5.setVisible(true);
+                panel11.setVisible(false);
                 panel6.setVisible(false);
+                panel12.setVisible(false);
                 panel7.setVisible(false);
 
-            } else if ((selection.equals("Affecter")) && (choixTables.equals("seance"))) {
+            } else if ((selection.equals("Affecter")) && (choixTables.equals("enseignant"))) {
+                panel9.setVisible(false);
                 panel4.setVisible(false);
+                panel10.setVisible(false);
                 panel5.setVisible(false);
+                panel11.setVisible(true);
                 panel6.setVisible(true);
+                panel12.setVisible(false);
                 panel7.setVisible(false);
 
             } else if ((selection.equals("Supprimer")) && (choixTables.equals("groupe"))) {
+                panel9.setVisible(false);
                 panel4.setVisible(false);
+                panel10.setVisible(false);
                 panel5.setVisible(false);
+                panel11.setVisible(false);
                 panel6.setVisible(false);
+                panel12.setVisible(true);
                 panel7.setVisible(true);
             }
 
-        } else if (source == "Afficher") {
-            String Nom = NOM.getText();
-            String IDSelect = ID.getText();
-            // appeler fonction;
+        } else if (source == Afficher) {
+            SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
+            ArrayList<Seance> seances = seanceDAO.chercherToutesLesSeances();
+            this.afficherSeances(seances);
 
-        } else if (source == "Modifier") {
-            String Nom2 = NOM2.getText();
-            String id2 = ID2.getText();
-            String id3 = ID3.getText();
-            // appeler fonction;
+        } else if (source == MAJ) {
+            String nomCourant = NOM.getText();
+            String nouveauNomSaisi = nouveauNom.getText();
+            CoursDAO coursDAO= (CoursDAO) DAOFactory.getCoursDAO();
+            Cours coursAModifie= coursDAO.chercher(nomCourant);
+            int idCours=coursAModifie.getIdCours();
+            SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
+            Seance seance=seanceDAO.chercher("ID_COURS",idCours).get(0);
+            MAJCours.modificationNomCours(seance.getId(),nouveauNomSaisi);
 
-        } else if ( source == "Affecter") {
-        String id4 = ID4.getText();
-        String id5 = ID5.getText();
-        String id6 = ID6.getText();
-        //Appeler fonction;
+        } else if (source == Modifier) {
+            String nomSite = NOM2.getText();
+            Site nouveauSite = new Site(nomSite);
+            SiteDAO siteDAO= (SiteDAO) DAOFactory.getSiteDAO();
+            siteDAO.creer(nouveauSite);
 
-
-        } else if( source == "Supprimer"){
+        } else if (source == Affecter) {
+            String id4 = ID4.getText();
+            String id5 = ID5.getText();
+            String id6 = ID6.getText();
+            //Appeler fonction;
+        } else if (source == Supprimer) {
 
         }
 
     }
 
-    public void remplirChoixPromos(){
-        if(defaultComboBoxModel!=null) {
+    public void remplirChoixPromos() {
+        if (defaultComboBoxModel != null) {
             defaultComboBoxModel.removeAllElements();
         }
-        PromotionDAO promotionDAO= (PromotionDAO) DAOFactory.getPromotionDAO();
-        ArrayList<Promotion> promotions =promotionDAO.chercherToutesLesPromotions();
-        ArrayList<String> nomPromos= new ArrayList<>();
+        PromotionDAO promotionDAO = (PromotionDAO) DAOFactory.getPromotionDAO();
+        ArrayList<Promotion> promotions = promotionDAO.chercherToutesLesPromotions();
+        ArrayList<String> nomPromos = new ArrayList<>();
 
-        for(Promotion promo:promotions)
-        {
+        for (Promotion promo : promotions) {
             nomPromos.add(promo.getNom());
         }
-        defaultComboBoxModel= new DefaultComboBoxModel(nomPromos.toArray());
+        defaultComboBoxModel = new DefaultComboBoxModel(nomPromos.toArray());
         promo.setModel(defaultComboBoxModel);
 
     }
-    public void remplirChoixGroupes(){
-        String promoChoisie= (String) promo.getSelectedItem();
-        if(comboBoxGroupes!=null) {
+
+    public void remplirChoixGroupes() {
+        String promoChoisie = (String) promo.getSelectedItem();
+        if (comboBoxGroupes != null) {
             comboBoxGroupes.removeAllElements();
         }
-        PromotionDAO promotionDAO= (PromotionDAO) DAOFactory.getPromotionDAO();
-        ArrayList<Promotion> promotion =promotionDAO.chercher("NOM",promoChoisie);
-        Promotion promotionChoisie= promotion.get(0);
-        ArrayList<Groupe> groupesPromo=RechercheGroupes.rechercherGroupes(promotionChoisie.getId());
-        ArrayList<String> nomGroupes= new ArrayList<>();
+        PromotionDAO promotionDAO = (PromotionDAO) DAOFactory.getPromotionDAO();
+        ArrayList<Promotion> promotion = promotionDAO.chercher("NOM", promoChoisie);
+        Promotion promotionChoisie = promotion.get(0);
+        ArrayList<Groupe> groupesPromo = RechercheGroupes.rechercherGroupes(promotionChoisie.getId());
+        ArrayList<String> nomGroupes = new ArrayList<>();
 
-        for(Groupe groupe:groupesPromo)
-        {
+        for (Groupe groupe : groupesPromo) {
             nomGroupes.add(groupe.getNom());
         }
-        comboBoxGroupes= new DefaultComboBoxModel(nomGroupes.toArray());
+        comboBoxGroupes = new DefaultComboBoxModel(nomGroupes.toArray());
         td.setModel(comboBoxGroupes);
     }
 
     public void afficherSeances(ArrayList<Seance> seances) {
         zoneTexte.setText(null);
         Type_CoursDAO typeCoursDAO = (Type_CoursDAO) DAOFactory.getTypeCours();
+        CoursDAO coursDAO= (CoursDAO) DAOFactory.getCoursDAO();
         for (Seance seance : seances) {
-
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("DATE: ");
+            stringBuilder.append("ID_SEANCE: ");
+            stringBuilder.append(seance.getId());
+            stringBuilder.append("      DATE: ");
             stringBuilder.append(seance.getDate().toString());
-            stringBuilder.append("  DEBUT: ");
+            stringBuilder.append("      DEBUT: ");
             stringBuilder.append(seance.getHeureDebut().toString());
-            stringBuilder.append("  FIN: ");
+            stringBuilder.append("      FIN: ");
             stringBuilder.append(seance.getHeureFin().toString());
-            stringBuilder.append("  ETAT: ");
+            stringBuilder.append("      ETAT: ");
             stringBuilder.append(seance.getEtat().getNom());
-            stringBuilder.append("  Type: ");
+            stringBuilder.append("      Type: ");
             stringBuilder.append(typeCoursDAO.chercher(seance.getTypeCours()).getNom());
+            stringBuilder.append("      ID_TYPE: ");
+            stringBuilder.append(typeCoursDAO.chercher(seance.getTypeCours()).getId());
+            stringBuilder.append("      ID_COURS: ");
+            stringBuilder.append(seance.getCours());
+            stringBuilder.append("      NOM_COURS: ");
+            stringBuilder.append(coursDAO.chercher(seance.getCours()).getNomCours());
             String ligneSeance = stringBuilder.toString();
             String salleLigne = ligneSeance + "\n\n";
             zoneTexte.append(salleLigne);

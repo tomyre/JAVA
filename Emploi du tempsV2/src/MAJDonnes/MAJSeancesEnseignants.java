@@ -3,6 +3,7 @@ package MAJDonnes;
 import Classes_Conteneurs.DAO.DAOFactory;
 import Classes_Conteneurs.DAO.SeanceDAO;
 import Classes_Conteneurs.DAO.Seances_Enseignants_Manager;
+import Classes_Conteneurs.DAO.Seances_Groupes_Manager;
 import Classes_Conteneurs.Seance;
 import java.util.ArrayList;
 
@@ -65,5 +66,14 @@ public class MAJSeancesEnseignants {
             }
         }
         return true;
+    }
+    public static boolean enleverEnseignantDeSeance(int idEnseignant,int idSeance) {
+        ArrayList<Integer> enseignants = Seances_Enseignants_Manager.chercherEnseignants(idSeance);
+        for (Integer idEnseignantCourant : enseignants) {
+            if (idEnseignant == idEnseignantCourant) {
+                return Seances_Enseignants_Manager.supprimerLiaison(idEnseignant, idSeance);
+            }
+        }
+        return false;
     }
 }

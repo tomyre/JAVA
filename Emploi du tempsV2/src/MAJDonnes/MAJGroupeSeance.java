@@ -47,7 +47,7 @@ public class MAJGroupeSeance {
             return false;
         }
         // ici on peut assigner
-        return MAJGroupeSeance.pasDeConflitsPourGroupe(idGroupe, seancePretendante) && MAJGroupeSeance.capaciteSallesSeancePasSaturee(idGroupe,seancePretendante) && Seances_Groupes_Manager.creerLiaison(idGroupe, idSeance);
+        return MAJGroupeSeance.pasDeConflitsPourGroupe(idGroupe, seancePretendante) && MAJGroupeSeance.capaciteSallesSeancePasSaturee(idGroupe, seancePretendante) && Seances_Groupes_Manager.creerLiaison(idGroupe, idSeance);
     }
 
 
@@ -92,15 +92,14 @@ public class MAJGroupeSeance {
 
     }
 
-    public static boolean enleverGroupeSeance (int idGroupe, int idSeance){
-        SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
-        Seance seance = seanceDAO.chercher(idSeance);
-        GroupeDAO groupeDAO = (GroupeDAO) DAOFactory.getGroupeDAO();
-//        Groupe groupeAEnlever= groupeDAO.chercher(seance.getListeGroupes());
-//        groupeAEnlever.s
-return false;
-
-
+    public static boolean enleverGroupeSeance(int idGroupe, int idSeance) {
+        ArrayList<Integer> groupes = Seances_Groupes_Manager.chercherGroupes(idSeance);
+        for (Integer idGroupeCourant : groupes) {
+            if (idGroupeCourant == idGroupe) {
+                return Seances_Groupes_Manager.supprimerLiaison(idGroupe, idSeance);
+            }
+        }
+        return false;
     }
 
 

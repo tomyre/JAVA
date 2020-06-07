@@ -5,6 +5,10 @@ public class Site {
 
     public Site() {};
 
+    public Site(String nom) {
+        this.nom = nom;
+    }
+
     public Site(int id, String nom) {
         this.id = id;
         this.nom = nom;
