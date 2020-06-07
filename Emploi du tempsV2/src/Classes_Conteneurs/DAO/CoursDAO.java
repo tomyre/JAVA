@@ -100,6 +100,12 @@ public class CoursDAO extends DAO<Cours>{
         return cours;
     }
 
+    /**
+     *
+     * @param colonne
+     * @param valeur
+     * @return
+     */
     public ArrayList<Cours> chercher(String colonne, String valeur) {
         ArrayList<Cours> listeCours= new ArrayList<>();
         try {

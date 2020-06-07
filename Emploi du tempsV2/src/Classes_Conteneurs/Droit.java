@@ -17,6 +17,21 @@ public enum Droit {
     public int getDroit() {
         return this.indiceDroit;
     }
+    public static String getDroitNom(int droit) {
+        switch (droit)
+        {
+            case 1:
+                return "Admin";
+            case 2:
+                return "Referent Pedagogique";
+            case 3:
+                return "Enseignant";
+            case 4:
+                return "Etudiant";
+            default:
+                return "Inconnu";
+        }
+    }
     public static Droit getDroit(int droit){
         switch (droit)
         {

@@ -23,7 +23,7 @@ public class main {
 
     public static void main(String[] s) throws SQLException, ClassNotFoundException {
         // creation de la fenetre
-        PageRP f = new PageRP();
+        Pageconnexion f = new Pageconnexion();
     }
 
 

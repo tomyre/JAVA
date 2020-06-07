@@ -5,9 +5,11 @@
  */
 package graphique;
 
-import Classes_Conteneurs.DAO.DAOFactory;
-import Classes_Conteneurs.DAO.Type_CoursDAO;
+import Classes_Conteneurs.DAO.*;
+import Classes_Conteneurs.Droit;
+import Classes_Conteneurs.Etudiant;
 import Classes_Conteneurs.Seance;
+import Classes_Conteneurs.Utilisateur;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -19,16 +21,18 @@ import javax.swing.*;
  *
  * @author azglr
  */
-public class Professeur extends JFrame implements ActionListener {
+public class PageClassique extends JFrame implements ActionListener {
 
     private final JPanel panelBouton, content1, content2, contentall ;
     private final JTextArea zoneText1, zoneText2;
     private final JButton edt, recap;
     
-    public Professeur() {
+    public PageClassique() {
         
         //création de la fenetre
-        super("Page prof");
+        super("Page "+ Droit.getDroitNom(Pageconnexion.droitUtilisateurConnecte));
+
+
 
         // mise en page (layout) de la fenetre visible
         setLayout(new BorderLayout());
@@ -109,33 +113,49 @@ public class Professeur extends JFrame implements ActionListener {
         Object source = action.getSource();
 
         if (source == recap) {
-            System.out.println("bouton recap ok");
             content1.setVisible(false);
             content2.setVisible(true);
 
         } else if (source == edt) {
-            System.out.println("bouton edt ok");
             content2.setVisible(false);
             content1.setVisible(true);
+            if(Pageconnexion.droitUtilisateurConnecte ==3)
+            {
+                //prof
+                UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
+                Utilisateur utilisateurConnecte=utilisateurDAO.chercher("NOM",Pageconnexion.nomUtilisateurConnecte).get(0);
+                Seances_Enseignants_Manager seances_enseignants_manager= new Seances_Enseignants_Manager();
+               ArrayList<Integer> listeSeancesId= seances_enseignants_manager.chercherSeances(utilisateurConnecte.getId());
+                SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
+                ArrayList<Seance> listeSeanceEnseigants= new ArrayList<>();
+               for(Integer idSeance:listeSeancesId)
+               {
+                   Seance seanceCourante=seanceDAO.chercher(idSeance);
+                   listeSeanceEnseigants.add(seanceCourante);
+
+               }
+               this.afficherSeances(listeSeanceEnseigants);
+            }
+            else if(Pageconnexion.droitUtilisateurConnecte ==4)
+            {
+                //eleve
+                UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
+                Utilisateur utilisateurConnecte=utilisateurDAO.chercher("NOM",Pageconnexion.nomUtilisateurConnecte).get(0);
+                EtudiantDAO etudiantDAO= (EtudiantDAO) DAOFactory.getEtudiantDAO();
+                Etudiant etudiantConnecte= etudiantDAO.chercher(utilisateurConnecte.getId());
+                ArrayList<Integer> listeSeancesId= Seances_Groupes_Manager.chercherSeances(etudiantConnecte.getIdGroupe());
+                SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
+                ArrayList<Seance> listeSeanceEleve= new ArrayList<>();
+                for(Integer idSeance:listeSeancesId)
+                {
+                    Seance seanceCourante=seanceDAO.chercher(idSeance);
+                    listeSeanceEleve.add(seanceCourante);
+
+                }
+                this.afficherSeances(listeSeanceEleve);
+            }
+
         }
     }
 
-    /*
-    //action du bouton edt
-        edt.addActionListener(new ActionListener(){
-        public void actionPerformed(ActionEvent event){
-            cl.next(content); //passsage au porchain conteneur
-        }
-    });
-
-    //action du bouton recap
-        recap.addActionListener(new ActionListener(){
-        public void actionPerformed(ActionEvent event){
-            if(++indice >1)
-                indice = 0;
-
-            cl.show(content, listContent[indice]); //
-        }
-    });
-    */
 }

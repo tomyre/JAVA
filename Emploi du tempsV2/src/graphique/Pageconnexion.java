@@ -8,7 +8,6 @@ package graphique;
 import Classes_Conteneurs.DAO.DAOFactory;
 import Classes_Conteneurs.DAO.UtilisateurDAO;
 import Classes_Conteneurs.Utilisateur;
-import controller.Connexion;
 
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -19,23 +18,19 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author azglr
  */
 
 public class Pageconnexion extends JFrame implements ActionListener, ItemListener {
-
+    public static int droitUtilisateurConnecte = -1;
+    public static String nomUtilisateurConnecte ="";
     private final JLabel email, password, vide;
-    private final JTextField mail, mdp;
+    private final JTextField mail;
+    private final JPasswordField mdp;
     private final JButton connexion;
     private final JPanel panel1, panel2, nord;
-    String emailSaisi;
-    private String mdpSaisi;
-    private int ID;
 
     public Pageconnexion() {
 
@@ -99,6 +94,48 @@ public class Pageconnexion extends JFrame implements ActionListener, ItemListene
                 System.exit(0); // tout fermer												System.exit(0); // tout fermer
             }
         });
+        Action doNothing = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                String emailSaisi = mail.getText();
+                String mdpSaisi = String.valueOf(mdp.getPassword());
+                UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
+                Utilisateur utilisateurMailCorrespondant = utilisateurDAO.chercher(emailSaisi);
+                if (utilisateurMailCorrespondant == null) {
+                    JOptionPane.showMessageDialog(null, "Veuillez saisir une adresse mail existante !", "Utilisateur Introuvable", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                boolean utilisateurIdentifie = utilisateurMailCorrespondant.getMotDePasse().equals(mdpSaisi);
+                if (utilisateurIdentifie) {
+                    System.out.println(utilisateurMailCorrespondant.getNom()+"  "+ utilisateurMailCorrespondant.getPrenom());
+                    int OptentionDroit = utilisateurMailCorrespondant.getDroit().getDroit();
+                    Pageconnexion.droitUtilisateurConnecte =OptentionDroit;
+                    Pageconnexion.nomUtilisateurConnecte=utilisateurMailCorrespondant.getNom();
+                    if (OptentionDroit >0) {
+                        switch (OptentionDroit) {
+                            case 1:
+                                //admin A = new Admin();
+                                break;
+                            case 2:
+                                PageRP ref = new PageRP();
+                                break;
+                            case 3:
+                            case 4:
+                                PageClassique pageClassique = new PageClassique();
+                                break;
+                        }
+                        //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
+                    }
+                }
+                else {
+                    // pas bon mdp
+                    JOptionPane.showMessageDialog(null, "Veuillez saisir le mot de passe correct", "Mot de passe Incorrect", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        mdp.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),
+                "doNothing");
+        mdp.getActionMap().put("doNothing",
+                doNothing);
     }
 
     /**
@@ -106,40 +143,46 @@ public class Pageconnexion extends JFrame implements ActionListener, ItemListene
      */
     @Override
     public void actionPerformed(ActionEvent action) {
-        emailSaisi = mail.getText();
-        mdpSaisi = mdp.getText();
-        UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
-        Utilisateur utilisateurMailCorrespondant = utilisateurDAO.chercher(emailSaisi);
-        if (utilisateurMailCorrespondant == null) {
-            return;
-        }
-        boolean utilisateurIdentifie = utilisateurMailCorrespondant.getMotDePasse() == mdpSaisi;
-        if (utilisateurIdentifie) {
-            int OptentionDroit = utilisateurMailCorrespondant.getDroit().getDroit();
-            if (OptentionDroit != -1) {
-                switch (OptentionDroit) {
-
-                    case 1:
-                        //admin A = new Admin();
-                    case 2:
-                        PageRP ref = new PageRP();
-                    case 3:
-                        Professeur prof = new Professeur();
-                    case 4:
-                        Etudiant etu = new Etudiant();
-                }
-                //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
-            } else {
-                // pas bon mdp
-            }
-        }
-
-
+        this.connexionUtilisateur();
     }
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public void connexionUtilisateur()
+    {
+        String emailSaisi = mail.getText();
+        String mdpSaisi = String.valueOf(mdp.getPassword());
+        System.out.println(mdpSaisi);
+        UtilisateurDAO utilisateurDAO = (UtilisateurDAO) DAOFactory.getUtilisateur();
+        Utilisateur utilisateurMailCorrespondant = utilisateurDAO.chercher(emailSaisi);
+        if (utilisateurMailCorrespondant == null) {
+            JOptionPane.showMessageDialog(null, "Veuillez saisir une adresse mail existante !", "Utilisateur Introuvable", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        boolean utilisateurIdentifie = utilisateurMailCorrespondant.getMotDePasse().equals(mdpSaisi);
+        if (utilisateurIdentifie) {
+            int OptentionDroit = utilisateurMailCorrespondant.getDroit().getDroit();
+            if (OptentionDroit >0) {
+                switch (OptentionDroit) {
+                    case 1:
+                        //admin A = new Admin();
+                    case 2:
+                        PageRP ref = new PageRP();
+                    case 3:
+                        PageClassique prof = new PageClassique();
+                    case 4:
+                        PageClassique etudiant = new PageClassique();
+                }
+                //System.out.print("On affiche la fenetre de droit: "+OptentionDroit);
+            }
+        }
+        else {
+            // pas bon mdp
+            JOptionPane.showMessageDialog(null, "Veuillez saisir le mot de passe correct", "Mot de passe Incorrect", JOptionPane.ERROR_MESSAGE);
+
+        }
     }
 }
 
