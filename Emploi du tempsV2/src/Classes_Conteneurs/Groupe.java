@@ -15,6 +15,11 @@ public class Groupe {
     }
 
     public Groupe() {};
+
+    public Groupe(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

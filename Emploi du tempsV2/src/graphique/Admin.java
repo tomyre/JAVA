@@ -9,6 +9,7 @@ import Classes_Conteneurs.*;
 import Classes_Conteneurs.DAO.*;
 import Classes_Conteneurs.Etudiant;
 import MAJDonnes.MAJCours;
+import MAJDonnes.MAJSeancesEnseignants;
 import Recherche.RechercheGroupes;
 import Recherche.RechercheSeances;
 
@@ -27,8 +28,8 @@ import javax.swing.*;
  */
 public class Admin extends JFrame implements ActionListener {
 
-    private final JLabel salle, matières, personnes, vide, nom, num, nada, v, r, n, w, o, a, b, c, d, f, g, h, i, j, k, l;
-    private final JButton Afficher2, MAJ, salles, selectCours, selectCategories, selectCategories2, Continuer, Ajouter, Supprimer, Affecter, Modifier, Afficher;
+    private final JLabel salle, matières, personnes, vide, nom, num, nada, v, r, n, w, o, a, b, c, d, f, g, i, j, k, l;
+    private final JButton Afficher5,Afficher3, Afficher4, Afficher2, MAJ, salles, selectCours, selectCategories, selectCategories2, Continuer, Ajouter, Supprimer, Affecter, Modifier, Afficher;
     private final JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, nord;
     private final JComboBox cours, pers, td, promo, choixmodif, Lieu, Type, Semaine, Table;
     private final JCheckBox tout;
@@ -77,6 +78,9 @@ public class Admin extends JFrame implements ActionListener {
         Afficher = new JButton("Afficher");
         MAJ = new JButton("MAJ");
         Afficher2 = new JButton("Afficher");
+        Afficher3 = new JButton("Afficher Seance");
+        Afficher4 = new JButton("Afficher enseignant");
+        Afficher5 = new JButton(("Affcher groupe"));
 
 
         //creation des CheckBox
@@ -138,10 +142,9 @@ public class Admin extends JFrame implements ActionListener {
         c = new JLabel("Nom : ", JLabel.CENTER);
         d = new JLabel("ID : ", JLabel.CENTER);
         j = new JLabel(" ", JLabel.CENTER);
-        f = new JLabel("adam", JLabel.CENTER);
-        g = new JLabel("adam", JLabel.CENTER);
-        h = new JLabel("adam", JLabel.CENTER);
-        k = new JLabel(" ", JLabel.CENTER);
+        f = new JLabel("ID enseignant", JLabel.CENTER);
+        g = new JLabel("ID seance", JLabel.CENTER);
+        k = new JLabel("ID groupe ", JLabel.CENTER);
 
         //création des panneaux
         panel1 = new JPanel();
@@ -236,10 +239,14 @@ public class Admin extends JFrame implements ActionListener {
 
         panel6.add(ID4);
         panel6.add(ID5);
-        panel6.add(ID6);
+        panel6.add(Afficher3);
+        panel6.add(Afficher4);
         panel6.add(Affecter);
         panel6.setVisible(false);
 
+
+        panel7.add(ID6);
+        panel7.add(Afficher5);
         panel7.add(Supprimer);
         panel7.setVisible(false);
 
@@ -257,9 +264,10 @@ public class Admin extends JFrame implements ActionListener {
 
         panel11.add(f);
         panel11.add(g);
-        panel11.add(h);
-        panel11.add(k);
         panel11.setVisible(false);
+
+        panel12.add(k);
+        panel12.setVisible(false);
 
         //panel12.add();
 
@@ -292,6 +300,11 @@ public class Admin extends JFrame implements ActionListener {
         Continuer.addActionListener(this);
         Modifier.addActionListener(this);
         MAJ.addActionListener(this);
+        Afficher2.addActionListener(this);
+        Afficher3.addActionListener(this);
+        Afficher4.addActionListener(this);
+        Affecter.addActionListener(this);
+        Afficher5.addActionListener(this);
 
         //disposition géographique des panneaux
         add("North", nord);
@@ -483,26 +496,43 @@ public class Admin extends JFrame implements ActionListener {
         } else if (source == MAJ) {
             String nomCourant = NOM.getText();
             String nouveauNomSaisi = nouveauNom.getText();
-            CoursDAO coursDAO= (CoursDAO) DAOFactory.getCoursDAO();
-            Cours coursAModifie= coursDAO.chercher(nomCourant);
-            int idCours=coursAModifie.getIdCours();
-            SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
-            Seance seance=seanceDAO.chercher("ID_COURS",idCours).get(0);
-            MAJCours.modificationNomCours(seance.getId(),nouveauNomSaisi);
+            CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
+            Cours coursAModifie = coursDAO.chercher(nomCourant);
+            int idCours = coursAModifie.getIdCours();
+            SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
+            Seance seance = seanceDAO.chercher("ID_COURS", idCours).get(0);
+            MAJCours.modificationNomCours(seance.getId(), nouveauNomSaisi);
 
         } else if (source == Modifier) {
             String nomSite = NOM2.getText();
             Site nouveauSite = new Site(nomSite);
-            SiteDAO siteDAO= (SiteDAO) DAOFactory.getSiteDAO();
+            SiteDAO siteDAO = (SiteDAO) DAOFactory.getSiteDAO();
             siteDAO.creer(nouveauSite);
 
         } else if (source == Affecter) {
-            String id4 = ID4.getText();
-            String id5 = ID5.getText();
-            String id6 = ID6.getText();
+            String idEnseignant = ID4.getText();
+            String idSeance = ID5.getText();
+            System.out.println(idEnseignant+"   "+idSeance);
+            MAJSeancesEnseignants.assigneEnseignantSeance(Integer.parseInt(idEnseignant), Integer.parseInt(idSeance));
+
             //Appeler fonction;
         } else if (source == Supprimer) {
+            String idGroupe=ID6.getText();
+            GroupeDAO groupeDAO = (GroupeDAO) DAOFactory.getGroupeDAO();
+            Groupe groupeASupprimer=new Groupe(Integer.parseInt(idGroupe));
+            groupeDAO.supprimer(groupeASupprimer);
 
+        } else if (source == Afficher3) {
+            SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
+            this.afficherSeances(seanceDAO.chercherToutesLesSeances());
+        } else if (source == Afficher4) {
+            EnseignantDAO enseignantDAO= (EnseignantDAO) DAOFactory.getEnseignantDAO();
+            this.afficherEnseignants(enseignantDAO.chercherToutLesEnseignants());
+        }
+        else if(source==Afficher5)
+        {
+            GroupeDAO groupeDAO=(GroupeDAO) DAOFactory.getGroupeDAO();
+            this.afficherGroupes(groupeDAO.chercherToutLesGroupes());
         }
 
     }
@@ -544,7 +574,7 @@ public class Admin extends JFrame implements ActionListener {
     public void afficherSeances(ArrayList<Seance> seances) {
         zoneTexte.setText(null);
         Type_CoursDAO typeCoursDAO = (Type_CoursDAO) DAOFactory.getTypeCours();
-        CoursDAO coursDAO= (CoursDAO) DAOFactory.getCoursDAO();
+        CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
         for (Seance seance : seances) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("ID_SEANCE: ");
@@ -571,6 +601,40 @@ public class Admin extends JFrame implements ActionListener {
         }
     }
 
+    public void afficherEnseignants(ArrayList<Enseignant> enseignants) {
+        zoneTexte.setText(null);
+        for (Enseignant enseignant : enseignants) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID: ");
+            stringBuilder.append(enseignant.getIdUtilisateur());
+            stringBuilder.append("      NOM: ");
+            UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
+            Utilisateur utilisateurCorrespondant=utilisateurDAO.chercher(enseignant.getIdUtilisateur());
+            stringBuilder.append(utilisateurCorrespondant.getNom());
+            stringBuilder.append("      PRENOM: ");
+            stringBuilder.append(utilisateurCorrespondant.getPrenom());
+            String ligneEnseign = stringBuilder.toString();
+            String ligneEnseignant = ligneEnseign + "\n\n";
+            zoneTexte.append(ligneEnseignant);
+        }
+    }
+    public void afficherGroupes(ArrayList<Groupe> groupes) {
+        zoneTexte.setText(null);
+        for (Groupe groupe : groupes) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID: ");
+            stringBuilder.append(groupe.getId());
+            stringBuilder.append("      NOM: ");
+            stringBuilder.append(groupe.getNom());
+            PromotionDAO promotionDAO= (PromotionDAO) DAOFactory.getPromotionDAO();
+            Promotion promotionCorrespondante=promotionDAO.chercher(groupe.getIdPromotion());
+            stringBuilder.append("      PROMOTION: ");
+            stringBuilder.append(promotionCorrespondante.getNom());
+            String ligneGroupe = stringBuilder.toString();
+            String ligneGroupeEntiere = ligneGroupe + "\n\n";
+            zoneTexte.append(ligneGroupeEntiere);
+        }
+    }
     private Object getId(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

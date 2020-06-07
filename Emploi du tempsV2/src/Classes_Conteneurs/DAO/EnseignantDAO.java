@@ -136,4 +136,21 @@ public class EnseignantDAO extends DAO<Enseignant> {
         }
         return listeEnsignants;
     }
+    public ArrayList<Enseignant> chercherToutLesEnseignants() {
+        ArrayList<Enseignant> listeEnsignants= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM enseignant ";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Enseignant enseignant= new Enseignant(resultat.getInt("ID_UTILISATEUR"),resultat.getInt("ID_COURS"));
+                listeEnsignants.add(enseignant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeEnsignants;
+    }
+
 }

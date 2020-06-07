@@ -137,4 +137,20 @@ public class GroupeDAO extends DAO<Groupe> {
         }
         return listeGroupes;
     }
+    public ArrayList<Groupe> chercherToutLesGroupes() {
+        ArrayList<Groupe> listeGroupes= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM groupe";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Groupe groupe= new Groupe(resultat.getInt("ID"),resultat.getString("NOM"),resultat.getInt("ID_PROMOTION"));
+                listeGroupes.add(groupe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeGroupes;
+    }
 }
