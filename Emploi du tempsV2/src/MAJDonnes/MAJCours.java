@@ -3,30 +3,22 @@ package MAJDonnes;
 import Classes_Conteneurs.Cours;
 import Classes_Conteneurs.DAO.*;
 import Classes_Conteneurs.Seance;
-import Classes_Conteneurs.TypeCours;
 
-import java.util.ArrayList;
 
 public class MAJCours {
-        public static boolean AssigneModificationTypeCours (int ID,String Nom) {
-            Type_CoursDAO types_coursDAO = (Type_CoursDAO) DAOFactory.getTypeCours();
-            TypeCours seancePretendante = types_coursDAO.chercher(ID);
-            if (seancePretendante == null) {
-                return false;
-            } else {
+    public static boolean modificationTypeCours(int idSeance, int nouveauIdType) {
+        SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
+        Seance seance = seanceDAO.chercher(idSeance);
+        seance.setTypeCours(nouveauIdType);
+        return seanceDAO.miseAJour(seance);
+    }
 
-                return false;
-            }
-        }
-        public static boolean AssigneModificationNomCours(int ID, String Nom){
-            CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
-            Cours seancePretendante = coursDAO.chercher(ID);
-            if (seancePretendante == null) {
-                return false;
-            }else
-            {
-
-            }
-            return false;
-        }
+    public static boolean modificationNomCours(int idSeance, String nouveauNomCours) {
+        SeanceDAO seanceDAO = (SeanceDAO) DAOFactory.getSeanceDAO();
+        Seance seance = seanceDAO.chercher(idSeance);
+        CoursDAO coursDAO = (CoursDAO) DAOFactory.getCoursDAO();
+        Cours coursAModifier = coursDAO.chercher(seance.getCours());
+        coursAModifier.setNomCours(nouveauNomCours);
+        return coursDAO.miseAJour(coursAModifier);
+    }
 }

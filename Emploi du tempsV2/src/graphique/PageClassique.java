@@ -125,7 +125,7 @@ public class PageClassique extends JFrame implements ActionListener {
                 UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
                 Utilisateur utilisateurConnecte=utilisateurDAO.chercher("NOM",Pageconnexion.nomUtilisateurConnecte).get(0);
                 Seances_Enseignants_Manager seances_enseignants_manager= new Seances_Enseignants_Manager();
-               ArrayList<Integer> listeSeancesId= seances_enseignants_manager.chercherSeances(utilisateurConnecte.getId());
+               ArrayList<Integer> listeSeancesId= Seances_Enseignants_Manager.chercherSeances(utilisateurConnecte.getId());
                 SeanceDAO seanceDAO= (SeanceDAO) DAOFactory.getSeanceDAO();
                 ArrayList<Seance> listeSeanceEnseigants= new ArrayList<>();
                for(Integer idSeance:listeSeancesId)

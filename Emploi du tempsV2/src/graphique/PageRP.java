@@ -15,7 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
 
 /**
@@ -23,13 +22,13 @@ import javax.swing.*;
  */
 public class PageRP extends JFrame implements ActionListener {
 
-    private final JLabel salle, matières, personnes, vide, rien, no, nada, r, n, v, w;
+    private final JLabel salle, matières, personnes, vide, nom, num, nada, r, n, v, w, o;
     private final JButton salles, selectCours, selectCategories, selectCategories2;
     private final JPanel panel1, panel2, panel3, nord;
     private  JComboBox cours, pers, td, promo;
     private final JCheckBox tout;
     private final JTextArea zoneTexte;
-    private final JTextField saisieInfos, saisieSemaine;
+    private final JTextField saisieInfos, saisieSemaine, saisieSemaine2;
     private DefaultComboBoxModel defaultComboBoxModel,comboBoxGroupes;
 
     String tab[] = new String[]{"etudiant", "enseignant", "promotion"};
@@ -40,13 +39,14 @@ public class PageRP extends JFrame implements ActionListener {
         panel1.add(matières);
         panel1.add(vide);
         panel1.add(personnes);
-        panel1.add(rien);
-        panel1.add(no);
+        panel1.add(nom);
+        panel1.add(num);
         panel1.add(nada);
         panel1.add(r);
         panel1.add(n);
         panel1.add(v);
         panel1.add(w);
+        panel1.add(o);
         panel2.add(salles);
         panel2.add(cours);
         panel2.add(selectCours);
@@ -59,6 +59,9 @@ public class PageRP extends JFrame implements ActionListener {
         tout.setVisible(false);
         selectCategories2.setVisible(false);
         td.setVisible(false);
+        saisieSemaine2.setVisible(false);
+        r.setVisible(false);
+        panel2.add(saisieSemaine2);
         panel2.add(promo);
         panel2.add(tout);
         panel2.add(td);
@@ -108,6 +111,7 @@ public class PageRP extends JFrame implements ActionListener {
         //création des JTextField
         saisieInfos = new JTextField();
         saisieSemaine = new JTextField();
+        saisieSemaine2 = new JTextField();
 
         //création des textes
         zoneTexte = new JTextArea();
@@ -117,21 +121,22 @@ public class PageRP extends JFrame implements ActionListener {
         matières = new JLabel("Les cours", JLabel.CENTER);
         vide = new JLabel(" ", JLabel.CENTER);
         personnes = new JLabel("Catégories de recherches", JLabel.CENTER);
-        rien = new JLabel(" ", JLabel.CENTER);
-        no = new JLabel(" ", JLabel.CENTER);
+        nom = new JLabel("Nom : ", JLabel.CENTER);
+        num = new JLabel("N° Semaine : ", JLabel.CENTER);
         nada = new JLabel(" ", JLabel.CENTER);
         v = new JLabel(" ", JLabel.CENTER);
         n = new JLabel(" ", JLabel.CENTER);
-        r = new JLabel(" ", JLabel.CENTER);
+        r = new JLabel("N° Semaine : ", JLabel.CENTER);
         w = new JLabel(" ", JLabel.CENTER);
+        o = new JLabel(" ", JLabel.CENTER);
 
         //création des panneaux
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayout(1, 11));
+        panel1.setLayout(new GridLayout(1, 12));
 
 
         panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(1, 11,10,0));
+        panel2.setLayout(new GridLayout(1, 12,10,0));
         panel2.setVisible(true);
 
         panel3 = new JPanel();
@@ -231,13 +236,14 @@ public class PageRP extends JFrame implements ActionListener {
             String persBox = (String) pers.getSelectedItem();
             String infos = saisieInfos.getText();
             String semaine=saisieSemaine.getText();
+            String semaine2=saisieSemaine2.getText();
             if(persBox.equals("etudiant"))
             {
                 UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
                 Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
                 EtudiantDAO etudiantDAO= (EtudiantDAO) DAOFactory.getEtudiantDAO();
                 Etudiant etudiantCorrespondant=etudiantDAO.chercher("ID_UTILISATEUR",utilisateur.getId()).get(0);
-                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(),Integer.parseInt(semaine));
+                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEtudiant(etudiantCorrespondant.getNumeroEtudiant(),Integer.parseInt(semaine2));
                 assert seancesCorrespondantes != null;
                 this.afficherSeances(seancesCorrespondantes);
 
@@ -245,7 +251,7 @@ public class PageRP extends JFrame implements ActionListener {
             else if(persBox=="enseignant"){
                 UtilisateurDAO utilisateurDAO= (UtilisateurDAO) DAOFactory.getUtilisateur();
                 Utilisateur utilisateur=utilisateurDAO.chercher("NOM",infos).get(0);
-                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(),Integer.parseInt(semaine));
+                ArrayList<Seance> seancesCorrespondantes=RechercheSeances.rechercherSeancesEnseignant(utilisateur.getId(),Integer.parseInt(semaine2));
                 assert seancesCorrespondantes != null;
                 this.afficherSeances(seancesCorrespondantes);
             }
@@ -257,20 +263,28 @@ public class PageRP extends JFrame implements ActionListener {
                 saisieInfos.setVisible(false);
                 saisieSemaine.setVisible(false);
                 selectCategories.setVisible(false);
+                nom.setVisible(false);
+                num.setVisible(false);
                 promo.setVisible(true);
                 tout.setVisible(true);
                 selectCategories2.setVisible(true);
                 td.setVisible(true);
+                r.setVisible(true);
+                saisieSemaine2.setVisible(true);
                 this.remplirChoixPromos();
                 this.remplirChoixGroupes();
             } else {
                 saisieInfos.setVisible(true);
                 saisieSemaine.setVisible(true);
                 selectCategories.setVisible(true);
+                nom.setVisible(true);
+                num.setVisible(true);
                 promo.setVisible(false);
                 tout.setVisible(false);
                 selectCategories2.setVisible(false);
                 td.setVisible(false);
+                r.setVisible(false);
+                saisieSemaine2.setVisible(false);
             }
 
         } else if (source == promo) {

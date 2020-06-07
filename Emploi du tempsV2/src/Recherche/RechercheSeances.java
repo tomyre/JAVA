@@ -48,7 +48,7 @@ public class RechercheSeances {
 
         //Chercher seances correspondantes a l'enseignant
         Seances_Enseignants_Manager seanceEnseignantManager = DAOFactory.getSeanceEnseignantManager();
-        ArrayList<Integer> listeIdSeances= seanceEnseignantManager.chercherSeances(idEnseignant);
+        ArrayList<Integer> listeIdSeances= Seances_Enseignants_Manager.chercherSeances(idEnseignant);
 
         SeanceDAO seanceDAO=(SeanceDAO) DAOFactory.getSeanceDAO();
         int taille=listeIdSeances.size();

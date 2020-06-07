@@ -149,4 +149,23 @@ public class SeanceDAO extends DAO<Seance> {
         }
         return listeSeance;
     }
+    public ArrayList<Seance> chercherToutesLesSeances(int semaine) {
+        ArrayList<Seance> listeSeance= new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM seance WHERE SEMAINE =?";
+            PreparedStatement preparedStatement = connect.prepareStatement(requete);
+            preparedStatement.setInt(1,semaine);
+            ResultSet resultat=preparedStatement.executeQuery();
+            while (resultat.next())
+            {
+                Etat_Seance etat= Etat_Seance.getEtat(resultat.getInt("ETAT"));
+                Seance seance= new Seance(resultat.getInt("ID"),resultat.getInt("SEMAINE"),resultat.getDate("DATE"),resultat.getTime("HEURE_DEBUT"),resultat.getTime("HEURE_FIN"),etat,resultat.getInt("ID_COURS"),resultat.getInt("ID_TYPE"));
+                listeSeance.add(seance);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listeSeance;
+    }
+
 }
